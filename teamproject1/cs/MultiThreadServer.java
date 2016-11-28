@@ -57,9 +57,12 @@ public class MultiThreadServer extends JFrame {
 				DataOutputStream outputToClient=new DataOutputStream(socket.getOutputStream());
 				
 				while(true){
+					double radius=inputFromClient.readDouble();
+					double area=radius*radius*Math.PI;
+					outputToClient.writeDouble(area);
 					
-					
-					
+					jta.append("");
+						
 					
 				}
 			}

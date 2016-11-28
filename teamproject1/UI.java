@@ -79,7 +79,7 @@ public class UI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 683, 423);
+		frame.setBounds(100, 100, 683, 365);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
@@ -270,7 +270,7 @@ public class UI {
 			}
 		});
 		button_1.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		button_1.setBounds(373, 174, 45, 23);
+		button_1.setBounds(373, 177, 45, 23);
 		panel.add(button_1);
 		
 		JButton button_3 = new JButton("▲");
@@ -304,7 +304,7 @@ public class UI {
 		panel.add(button_5);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(513, 42, 144, 293);
+		scrollPane_3.setBounds(513, 79, 144, 200);
 		panel.add(scrollPane_3);
 		
 		JList list = new JList();
@@ -316,8 +316,32 @@ public class UI {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnNewButton.setBounds(541, 345, 116, 23);
+		btnNewButton.setBounds(541, 294, 116, 23);
 		panel.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("log out");
+		btnNewButton_1.setFont(new Font("微软雅黑", Font.PLAIN, 12));
+		btnNewButton_1.setBounds(421, 294, 93, 23);
+		panel.add(btnNewButton_1);
+		btnNewButton_1.setVisible(false);
+		
+		JButton btnNewButton_2 = new JButton("modify password");
+		btnNewButton_2.setFont(new Font("微软雅黑", Font.PLAIN, 12));
+		btnNewButton_2.setBounds(254, 294, 143, 23);
+		panel.add(btnNewButton_2);
+		btnNewButton_2.setVisible(false);
+		
+		JButton btnNewButton_3 = new JButton("0 Message");
+		btnNewButton_3.setFont(new Font("微软雅黑", Font.PLAIN, 12));
+		btnNewButton_3.setBounds(132, 294, 102, 23);
+		panel.add(btnNewButton_3);
+		btnNewButton_3.setVisible(false);
+		
+		JButton btnNewButton_4 = new JButton("user: abcde");
+		btnNewButton_4.setFont(new Font("微软雅黑", Font.PLAIN, 12));
+		btnNewButton_4.setBounds(10, 294, 102, 23);
+		panel.add(btnNewButton_4);
+		btnNewButton_4.setVisible(false);
 		
 		
 	//	ImageIcon image=new ImageIcon("Baidu.jpg");

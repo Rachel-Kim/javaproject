@@ -16,7 +16,6 @@ public class UI2 extends JFrame {
 	private JTextField textField;
 	private JTextField textField_2;
 	private JTextField textField_3;
-	private JTextField textField_4;
 
 	/**
 	 * Launch the application.
@@ -40,7 +39,7 @@ public class UI2 extends JFrame {
 	public UI2() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 247);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -85,16 +84,6 @@ public class UI2 extends JFrame {
 		textField_3.setColumns(10);
 		textField_3.setBounds(155, 169, 153, 31);
 		contentPane.add(textField_3);
-		
-		JLabel label_4 = new JLabel("SEX:");
-		label_4.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		label_4.setBounds(10, 217, 54, 23);
-		contentPane.add(label_4);
-		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(155, 220, 153, 31);
-		contentPane.add(textField_4);
 		
 		JButton button = new JButton("SUBMIT");
 		button.setFont(new Font("微软雅黑", Font.PLAIN, 12));
