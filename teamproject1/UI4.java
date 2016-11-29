@@ -15,27 +15,21 @@ import java.awt.event.MouseEvent;
 
 import DataBase.UserManager;
 import DataBase.User;
-public class UI3 extends JFrame {
+public class UI4 extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField idtext;
-	private JPasswordField passwordField;
+	private JPasswordField newpwfield;
+	private JTextField oldpwfield;
 
 	/**
 	 * Launch the application.
 	 */
-	static boolean login;
-	/**public void setlogin(boolean log_in){
-		this.login=log_in;
-	}
-	public boolean getlogin(){
-		return this.login;
-	}*/
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UI3 frame = new UI3();
+					UI4 frame = new UI4();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,7 +41,7 @@ public class UI3 extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public UI3() {
+	public UI4() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -57,38 +51,37 @@ public class UI3 extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("ID:");
 		lblNewLabel.setFont(new Font("微软雅黑", Font.PLAIN, 19));
-		lblNewLabel.setBounds(62, 51, 39, 32);
+		lblNewLabel.setBounds(62, 30, 39, 32);
 		contentPane.add(lblNewLabel);
 		
 		idtext = new JTextField();
-		idtext.setBounds(205, 58, 127, 26);
+		idtext.setBounds(207, 37, 127, 26);
 		contentPane.add(idtext);
 		idtext.setColumns(10);
 		
-		JLabel lblPassword = new JLabel("PASSWORD:");
+		JLabel lblPassword = new JLabel("OLD PASSWORD:");
 		lblPassword.setFont(new Font("微软雅黑", Font.PLAIN, 19));
-		lblPassword.setBounds(62, 113, 133, 32);
+		lblPassword.setBounds(22, 86, 173, 32);
 		contentPane.add(lblPassword);
 		
-		JButton loginbutton = new JButton("LOG IN");
-		loginbutton.addMouseListener(new MouseAdapter() {
+		JButton modifybutton = new JButton("MODIFY");
+		modifybutton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				String uid=idtext.getText();
-				String pw=new String(passwordField.getPassword());
-				if(uid !=null && pw!=null && UserManager.identityVerify(uid, pw)==true){
-					JOptionPane.showMessageDialog(null,"success!", "Log reminder!", JOptionPane.INFORMATION_MESSAGE);
-					login=true;
-					//setlogin(true);
+				String oldPw=oldpwfield.getText();
+				String newPw=new String(newpwfield.getPassword());
+				if(UserManager.changePassword(uid, oldPw, newPw)==true){
+					JOptionPane.showMessageDialog(null,"success!", "modify reminder!", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else{
-					JOptionPane.showMessageDialog(null,"fail!", "Log reminder!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,"fail!", "modify reminder!", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
-		loginbutton.setFont(new Font("微软雅黑", Font.PLAIN, 19));
-		loginbutton.setBounds(94, 194, 101, 23);
-		contentPane.add(loginbutton);
+		modifybutton.setFont(new Font("微软雅黑", Font.PLAIN, 19));
+		modifybutton.setBounds(62, 209, 117, 23);
+		contentPane.add(modifybutton);
 		
 		JButton cancelbutton = new JButton("CANCEL");
 		cancelbutton.addMouseListener(new MouseAdapter() {
@@ -98,12 +91,21 @@ public class UI3 extends JFrame {
 			}
 		});
 		cancelbutton.setFont(new Font("微软雅黑", Font.PLAIN, 19));
-		cancelbutton.setBounds(218, 194, 116, 23);
+		cancelbutton.setBounds(218, 209, 116, 23);
 		contentPane.add(cancelbutton);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(205, 119, 127, 26);
-		contentPane.add(passwordField);
+		newpwfield = new JPasswordField();
+		newpwfield.setBounds(207, 149, 127, 26);
+		contentPane.add(newpwfield);
+		
+		oldpwfield = new JTextField();
+		oldpwfield.setColumns(10);
+		oldpwfield.setBounds(207, 92, 127, 26);
+		contentPane.add(oldpwfield);
+		
+		JLabel lblNewpassword = new JLabel("NEW PASSWORD:");
+		lblNewpassword.setFont(new Font("微软雅黑", Font.PLAIN, 19));
+		lblNewpassword.setBounds(22, 142, 173, 32);
+		contentPane.add(lblNewpassword);
 	}
-
 }

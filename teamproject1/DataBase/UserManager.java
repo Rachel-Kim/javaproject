@@ -59,12 +59,12 @@ public class UserManager {
 		try {
 			conn = DataBase.connect();
 			Statement statement = conn.createStatement();
-			String sql = "select username,password from user;";
+			String sql = "select username,password from usertable;";
 			ResultSet result = statement.executeQuery(sql);
 			while(result.next()){
 				if(account.equals(result.getString("username"))
 						&&oldPw.equals(result.getString("password"))){
-					change = statement.execute("update user set password = '"+newPw+"' where username = '"+account+"';");
+					change = statement.execute("update usertable set password = '"+newPw+"' where username = '"+account+"';");
 					break;
 				}
 			}
@@ -81,7 +81,7 @@ public class UserManager {
 		try {
 			conn = DataBase.connect();
 			Statement statement = conn.createStatement();
-			String sql = "select username,password from user;";
+			String sql = "select username,password from usertable;";
 			ResultSet result = statement.executeQuery(sql);
 			while(result.next()){
 				if(account.equals(result.getString("username"))

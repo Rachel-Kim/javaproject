@@ -33,6 +33,7 @@ public class UI {
 	 */
 	int type=0;
 	int count1_1=0,count1_2=0,count2_1=0,count2_2=0,count3_1=0,count3_2=0;
+	//boolean login=false;
 	public static void main(String[] args) {
 		System.out.println("Hello,This is the sever!!");
 		DataBase.connect();
@@ -111,20 +112,7 @@ public class UI {
 		btnSearch.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		btnSearch.setBounds(334, 9, 93, 23);
 		panel.add(btnSearch);
-		
-		
-		
-		JButton btnLogIn = new JButton("log in");
-		btnLogIn.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		btnLogIn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				UI3 frame3=new UI3();
-				frame3.setVisible(true);
-			}
-		});
-		btnLogIn.setBounds(437, 9, 93, 23);
-		panel.add(btnLogIn);
+	
 		
 		JButton btnSignIn = new JButton("sign in");
 		btnSignIn.setFont(new Font("微软雅黑", Font.PLAIN, 12));
@@ -326,6 +314,13 @@ public class UI {
 		btnNewButton_1.setVisible(false);
 		
 		JButton btnNewButton_2 = new JButton("modify password");
+		btnNewButton_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				UI4 frame4=new UI4();
+				frame4.setVisible(false);
+			}
+		});
 		btnNewButton_2.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		btnNewButton_2.setBounds(254, 294, 143, 23);
 		panel.add(btnNewButton_2);
@@ -343,7 +338,24 @@ public class UI {
 		panel.add(btnNewButton_4);
 		btnNewButton_4.setVisible(false);
 		
-		
+		JButton btnLogIn = new JButton("log in");
+		btnLogIn.setFont(new Font("微软雅黑", Font.PLAIN, 12));
+		btnLogIn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				UI3 frame3=new UI3();
+				frame3.setVisible(true);
+				if(UI3.login==true){
+				//if(new UI3().login==true){
+					btnNewButton_1.setVisible(true);
+					btnNewButton_2.setVisible(true);
+					btnNewButton_3.setVisible(true);
+					btnNewButton_4.setVisible(true);
+				}
+			}
+		});
+		btnLogIn.setBounds(437, 9, 93, 23);
+		panel.add(btnLogIn);
 	//	ImageIcon image=new ImageIcon("Baidu.jpg");
 	//	JLabel lblNewLabel = new JLabel(image);
 	//	lblNewLabel.setBounds(507, 70, 111, 58);
