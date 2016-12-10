@@ -1,8 +1,11 @@
 package DataBase;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.swing.JOptionPane;
 
 //Using Type to discriminate meanings from different sources
 //Type 1:Baidu
@@ -10,37 +13,8 @@ import java.sql.Statement;
 //Type 3:Youdao
 
 public class DictionaryManager {
-	public static boolean SetMeaning(String word,String[] meaning,int type)
-	{
-		boolean change = false;
-		try {
-			Statement statement = DataBase.connect().createStatement();
-			// Statement 是 Java 执行数据库操作的一个重要方法，
-			//用于在已经建立数据库连接的基础上，向数据库发送要执行的SQL语句。用于执行不带参数的简单SQL语句。
-			String sql = "select Word from Dictionary;";
-			ResultSet result = statement.executeQuery(sql); //方法 executeQuery 用于产生单个结果集的语句，例如 SELECT 语句。
-			boolean existence = false;
-			while(result.next()){
-				if(word.equals(result.getString("Word")))
-						existence = true;
-			}
-			if(existence == false)
-				return false;
-			if(type == 1)//方法 execute 用于执行返回多个结果集、多个更新计数或二者组合的语句
-				statement.execute("update Dictionary set Baidu = '"+ meaning.toString() +"' where Word = '"+word+"';");
-			else if(type == 2)
-				statement.execute("update Dictionary set Bing = '"+ meaning.toString() +"' where Word = '"+word+"';");
-			else
-				statement.execute("update Dictionary set Youdao = '"+ meaning.toString() +"' where Word = '"+word+"';");
-			change = true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return change;
-	}
 	//public static boolean AddWord(String word,String[] meaning, int type) 
-	public static boolean AddWord(String word) 
-	{
+	public static boolean AddWord(String word){
 		boolean change = false;
 		try {
 			Statement statement = DataBase.connect().createStatement();
@@ -59,18 +33,54 @@ public class DictionaryManager {
 	//	}
 		return change;
 	}
-	public static boolean AddPraise(String word)
-	{
+	public static boolean AddPraise(String username, String word,int addpraisetype){
 		boolean change = false;
+		Connection conn = null;
 		try {
-			Statement statement = DataBase.connect().createStatement();
-			String sql = "insert into Dictionary(Word,Baidu,Bing,Youdao) values('"
-					+ word +"null,null,null";
-			statement.execute(sql);
-			change = true;
+			conn = DataBase.connect();
+			Statement statement = conn.createStatement();
+			String sql = null;
+			if(addpraisetype == 1)
+				sql = "insert into BaiduPraise(username,Word) values('"+ username + "','"+ word + "');";
+			if(addpraisetype==2)
+				sql = "insert into YouDaoPraise(username,Word) values('"+ username + "','"+ word + "');";
+			if(addpraisetype==3)
+				sql = "insert into BingPraise(username,Word) values('"+ username + "','"+ word + "');";
+			change = statement.execute(sql);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,
+				       "你已经点过赞了，不要重复点击!", "系统信息", JOptionPane.ERROR_MESSAGE);
+			return false;
 		}
-		return change;
+		finally{
+			DataBase.close(conn);
+			return true;
+		}
+		
+	}
+	public static boolean DelPraise(String username, String word,int delpraisetype){
+		boolean change=false;
+		Connection conn=null;
+		try {
+			conn=DataBase.connect();
+			Statement statement=conn.createStatement();
+			String sql=null;
+			if(delpraisetype==1)
+				sql="delete from BaiduPraise where username = '"+ username + "' and word = '"+ word + "';";
+			if(delpraisetype==2)
+				sql="delete from YouDaoPraise where username = '"+ username + "' and word = '"+ word + "';";
+			if(delpraisetype==3)
+				sql="delete from BingPraise where username = '"+ username + "' and word = '"+ word + "';";
+			
+			change=statement.execute(sql);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,
+				       "你还没点过赞", "系统信息", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		finally{
+			DataBase.close(conn);
+		}
+		return true;
 	}
 }

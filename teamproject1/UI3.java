@@ -20,7 +20,7 @@ public class UI3 extends JFrame {
 	private JPanel contentPane;
 	private JTextField idtext;
 	private JPasswordField passwordField;
-
+	static String uid;
 	/**
 	 * Launch the application.
 	 */
@@ -74,7 +74,7 @@ public class UI3 extends JFrame {
 		loginbutton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				String uid=idtext.getText();
+				uid=idtext.getText();
 				String pw=new String(passwordField.getPassword());
 				if(uid !=null && pw!=null && UserManager.identityVerify(uid, pw)==true){
 					JOptionPane.showMessageDialog(null,"success!", "Log reminder!", JOptionPane.INFORMATION_MESSAGE);

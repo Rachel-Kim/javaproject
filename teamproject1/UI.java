@@ -1,8 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Dictionary;
 import java.util.HashMap;
 
@@ -27,7 +35,10 @@ public class UI {
 
 	private JFrame frame;
 	private JTextField textField;
-
+	public DataOutputStream toServer;
+	public DataInputStream fromServer;
+	public static String inputWord;
+	public static int numzanbaidu,numzanyoudao,numzanbing;
 	/**
 	 * Launch the application.
 	 */
@@ -104,6 +115,7 @@ public class UI {
 		panel.add(checkBox);
 		
 		textField = new JTextField();
+		
 		textField.setBounds(10, 10, 314, 21);
 		panel.add(textField);
 		textField.setColumns(10);
@@ -142,16 +154,7 @@ public class UI {
 		panel.add(btnSend);
 		
 		JButton btnGood = new JButton("▲");
-		btnGood.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				count1_1++;
-				if(count1_1==2){
-					JOptionPane.showMessageDialog( null , "您已点赞，不能重复点击" ,"错误" , JOptionPane.ERROR_MESSAGE) ;
-					count1_1=1;
-				}
-			}
-		});
+		
 		
 		btnGood.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		btnGood.setBounds(373, 78, 45, 23);
@@ -217,76 +220,31 @@ public class UI {
 		panel.add(scrollPane_2);
 		
 		JButton btnBad = new JButton("▼");
-		btnBad.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				count1_2++;
-				if(count1_2==2){
-					JOptionPane.showMessageDialog( null , "您已取消点赞，不能重复点击" ,"错误" , JOptionPane.ERROR_MESSAGE) ;
-					count1_2=1;
-				}
-			}
-		});
+		
 		btnBad.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		btnBad.setBounds(373, 104, 45, 23);
 		panel.add(btnBad);
 		
 		JButton button_4 = new JButton("▲");
-		button_4.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				count2_1++;
-				if(count2_1==2){
-					JOptionPane.showMessageDialog( null , "您已点赞，不能重复点击" ,"错误" , JOptionPane.ERROR_MESSAGE) ;
-					count2_1=1;
-				}
-			}
-		});
+		
 		button_4.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		button_4.setBounds(373, 152, 45, 23);
 		panel.add(button_4);
 		
 		JButton button_1 = new JButton("▼");
-		button_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				count2_2++;
-				if(count2_2==2){
-					JOptionPane.showMessageDialog( null , "您已取消点赞，不能重复点击" ,"错误" , JOptionPane.ERROR_MESSAGE) ;
-					count2_2=1;
-				}
-			}
-		});
+		
 		button_1.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		button_1.setBounds(373, 177, 45, 23);
 		panel.add(button_1);
 		
 		JButton button_3 = new JButton("▲");
-		button_3.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				count3_1++;
-				if(count3_1==2){
-					JOptionPane.showMessageDialog( null , "您已点赞，不能重复点击" ,"错误" , JOptionPane.ERROR_MESSAGE) ;
-					count3_1=1;
-				}
-			}
-		});
+		
 		button_3.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		button_3.setBounds(373, 229, 45, 23);
 		panel.add(button_3);
 		
 		JButton button_5 = new JButton("▼");
-		button_5.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				count3_2++;
-				if(count3_2==2){
-					JOptionPane.showMessageDialog( null , "您已取消点赞，不能重复点击" ,"错误" , JOptionPane.ERROR_MESSAGE) ;
-					count3_2=1;
-				}
-			}
-		});
+		
 		button_5.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		button_5.setBounds(373, 254, 45, 23);
 		panel.add(button_5);
@@ -353,6 +311,7 @@ public class UI {
 					btnNewButton_4.setVisible(true);
 				}
 			}
+			
 		});
 		btnLogIn.setBounds(437, 9, 93, 23);
 		panel.add(btnLogIn);
@@ -361,33 +320,120 @@ public class UI {
 	//	lblNewLabel.setBounds(507, 70, 111, 58);
 	//	panel.add(lblNewLabel);
 		
-		String inputWord ="";
+		
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				inputWord=textField.getText();
+			}
+		});
+		
+		//inputWord =textField.getText();
+		//String inputWord=textField.getText();
 		 btnSearch.addActionListener(new ActionListener(){  
 	            public void actionPerformed(ActionEvent e){
 	            	type=judge_type(checkBox,checkBox_1,checkBox_2);
-	         
+	            	
 	            	try {
 	            		
-	            		searchWords(inputWord,type,label,textArea_1,btnSend,btnGood,btnBad
-								,label_1,textArea_2,button,button_1,button_4
-								,label_2,textArea_3,button_2,button_3,button_5);
+	            		searchWords(inputWord,type,label,scrollPane,textArea_1,btnSend,btnGood,btnBad
+								,label_1,scrollPane_1,textArea_2,button,button_4,button_1
+								,label_2,scrollPane_2,textArea_3,button_2,button_3,button_5);
 					} catch (MalformedURLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} catch (FileNotFoundException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
-					}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} 
 	            }
 	        });
-	
-		
-
+	//baiduaddpraise
+		 btnGood.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseReleased(MouseEvent arg0) {
+					if(UI3.login==false){
+						JOptionPane.showMessageDialog( null , "请先登录！" ,"错误", JOptionPane.ERROR_MESSAGE) ;
+					}
+					else{
+						DictionaryManager dic=new DictionaryManager();
+						dic.AddPraise(UI3.uid, inputWord, 1);
+					}
+				}
+			});
+		 //baidudelpraise
+		 btnBad.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					if(UI3.login==false){
+						JOptionPane.showMessageDialog( null , "请先登录！" ,"错误", JOptionPane.ERROR_MESSAGE) ;
+					}
+					else{
+						DictionaryManager dic=new DictionaryManager();
+						dic.DelPraise(UI3.uid, inputWord, 1);
+					}
+				}
+			});
+		 //youdaoaddpraise
+		 button_4.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					if(UI3.login==false){
+						JOptionPane.showMessageDialog( null , "请先登录！" ,"错误", JOptionPane.ERROR_MESSAGE) ;
+					}
+					else{
+						DictionaryManager dic=new DictionaryManager();
+						dic.AddPraise(UI3.uid, inputWord, 2);
+					}
+				}
+			});
+		 //youdaodelpraise
+		 button_1.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					if(UI3.login==false){
+						JOptionPane.showMessageDialog( null , "请先登录！" ,"错误", JOptionPane.ERROR_MESSAGE) ;
+					}
+					else{
+						DictionaryManager dic=new DictionaryManager();
+						dic.DelPraise(UI3.uid, inputWord, 2);
+					}
+				}
+			});
+		 //biyingaddpraise
+		 button_3.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					if(UI3.login==false){
+						JOptionPane.showMessageDialog( null , "请先登录！" ,"错误", JOptionPane.ERROR_MESSAGE) ;
+					}
+					else{
+						DictionaryManager dic=new DictionaryManager();
+						dic.AddPraise(UI3.uid, inputWord, 3);
+					}
+				}
+			});
+		 //biyingdelpraise
+		 button_5.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					if(UI3.login==false){
+						JOptionPane.showMessageDialog( null , "请先登录！" ,"错误", JOptionPane.ERROR_MESSAGE) ;
+					}
+					else{
+						DictionaryManager dic=new DictionaryManager();
+						dic.DelPraise(UI3.uid, inputWord, 3);
+					}
+				}
+			});
 	}
 	public void searchWords(String inputWord,int TYPE
-			,JLabel label,JTextArea textArea_1,JButton btnSend,JButton btnGood,JButton btnBad
-			,JLabel label_1,JTextArea textArea_2,JButton button,JButton button_1,JButton button_4
-			,JLabel label_2,JTextArea textArea_3,JButton button_2,JButton button_3,JButton button_5) throws MalformedURLException, FileNotFoundException{
+			,JLabel label,JScrollPane scrollPane,JTextArea textArea_1,JButton btnSend,JButton btnGood,JButton btnBad
+			,JLabel label_1,JScrollPane scrollPane_1,JTextArea textArea_2,JButton button,JButton button_4,JButton button_1
+			,JLabel label_2,JScrollPane scrollPane_2,JTextArea textArea_3,JButton button_2,JButton button_3,JButton button_5) throws MalformedURLException, FileNotFoundException, SQLException{
 		inputWord=textField.getText();
 		textArea_1.setText("");
 		textArea_2.setText("");
@@ -399,6 +445,7 @@ public class UI {
 			//textArea_3.setText("输入不合法，请输入英文单词！");
 			flag=false;
 		}
+	
 		if(type==1 && flag==false){
 			textArea_1.setText("输入不合法，请输入英文单词！");
 		}
@@ -430,90 +477,137 @@ public class UI {
 			textArea_2.setText("输入不合法，请输入英文单词！");
 			textArea_3.setText("输入不合法，请输入英文单词！");
 		}
+		try{
+			Socket socket=new Socket("localhost",8000);
+			fromServer=new DataInputStream(socket.getInputStream());
+			toServer=new DataOutputStream(socket.getOutputStream());
+    		toServer.writeUTF(inputWord);
+    		toServer.writeInt(type);
+			toServer.flush();
+			
+			Statement statement2 = DataBase.connect().createStatement();
+			ResultSet resultSet2=statement2.executeQuery("select * from dictionary where Word='"+inputWord+"'");
+			//int numzanbaidu,numzanyoudao,numzanbing;
+			while(resultSet2.next()){
+				numzanbaidu=resultSet2.getInt(2);
+				numzanyoudao=resultSet2.getInt(3);
+				numzanbing=resultSet2.getInt(4);
+			}
+			
 		if(type==1 && flag==true){
 			label.setVisible(true);
+			scrollPane.setVisible(true);
 			textArea_1.setVisible(true);
 			btnSend.setVisible(true);
 			btnGood.setVisible(true);
 			btnBad.setVisible(true);
 			
 			label_1.setVisible(false);
+			scrollPane_1.setVisible(false);
 			textArea_2.setVisible(false);
 			button.setVisible(false);
 			button_1.setVisible(false);
 			button_4.setVisible(false);
 			
 			label_2.setVisible(false);
+			scrollPane_2.setVisible(false);
 			textArea_3.setVisible(false);
 			button_2.setVisible(false);
 			button_3.setVisible(false);
 			button_5.setVisible(false);
 			
+			label.setBounds(10, 64, 54, 15);
+			scrollPane.setBounds(20, 79, 341, 48);
+			textArea_1.setBounds(20, 79, 341, 48);
+			btnGood.setBounds(373, 78, 45, 23);
+			btnBad.setBounds(373, 104, 45, 23);
+			btnSend.setBounds(421, 78, 61, 49);
 			textArea_1.setText("");
 			String result="";
-			result=regex_baidu.baidusearch(inputWord);
+			//result=regex_baidu.baidusearch(inputWord);
+			result=fromServer.readUTF();
 			textArea_1.setText(result);
 		}
 		if(type==2 && flag==true){
 			label.setVisible(false);
+			scrollPane.setVisible(false);
 			textArea_1.setVisible(false);
 			btnSend.setVisible(false);
 			btnGood.setVisible(false);
 			btnBad.setVisible(false);
 			
 			label_1.setVisible(true);
+			scrollPane_1.setVisible(true);
 			textArea_2.setVisible(true);
 			button.setVisible(true);
 			button_1.setVisible(true);
 			button_4.setVisible(true);
 			
 			label_2.setVisible(false);
+			scrollPane_2.setVisible(false);
 			textArea_3.setVisible(false);
 			button_2.setVisible(false);
 			button_3.setVisible(false);
 			button_5.setVisible(false);
 			
 			label_1.setBounds(10, 64, 54, 15);
-			
+			scrollPane_1.setBounds(20, 79, 341, 48);
+			textArea_2.setBounds(20, 79, 341, 48);
+			button_4.setBounds(373, 78, 45, 23);
+			button_1.setBounds(373, 104, 45, 23);
+			button.setBounds(421, 78, 61, 49);
 			textArea_2.setText("");
 			String result="";
-			result=regex_bing.bingsearch(inputWord);
+			//result=regex_bing.bingsearch(inputWord);
+			result=fromServer.readUTF();
 			textArea_2.setText(result);
 		}
 		if(type==3 && flag==true){
 
 			label.setVisible(false);
+			scrollPane.setVisible(false);
 			textArea_1.setVisible(false);
 			btnSend.setVisible(false);
 			btnGood.setVisible(false);
 			btnBad.setVisible(false);
 			
 			label_1.setVisible(false);
+			scrollPane_1.setVisible(false);
 			textArea_2.setVisible(false);
 			button.setVisible(false);
 			button_1.setVisible(false);
 			button_4.setVisible(false);
 			
             label_2.setVisible(true);
+            scrollPane_2.setVisible(true);
             textArea_3.setVisible(true);
             button_2.setVisible(true);
             button_3.setVisible(true);
             button_5.setVisible(true);
 			
-			textArea_3.setText("");
+            label_2.setBounds(10, 64, 54, 15);
+			scrollPane_2.setBounds(20, 79, 341, 48);
+			textArea_3.setBounds(20, 79, 341, 48);
+			button_3.setBounds(373, 78, 45, 23);
+			button_5.setBounds(373, 104, 45, 23);
+			button_2.setBounds(421, 78, 61, 49);
+            textArea_3.setText("");
 			String result="";
-			result=regex_youdao.youdaosearch(inputWord);
+			//result=regex_youdao.youdaosearch(inputWord);
+			result=fromServer.readUTF();
 			textArea_3.setText(result);
 
 		}
-		if(type==4 && flag==true){
+		if((type==4 || type==8) && flag==true){
             label.setVisible(true);
+            scrollPane.setVisible(true);
             textArea_1.setVisible(true);
             btnSend.setVisible(true);
             btnGood.setVisible(true);
             btnBad.setVisible(true);
             
             label_1.setVisible(true);
+            scrollPane_1.setVisible(true);
             textArea_2.setVisible(true);
             button.setVisible(true);
             button_1.setVisible(true);
@@ -521,84 +615,302 @@ public class UI {
 
 
             label_2.setVisible(true);
+            scrollPane_2.setVisible(true);
             textArea_3.setVisible(true);
             button_2.setVisible(true);
             button_3.setVisible(true);
             button_5.setVisible(true);
 			
+            if(numzanbaidu>=numzanyoudao && numzanyoudao>=numzanbing){
+                label.setBounds(10, 64, 54, 15);
+    			scrollPane.setBounds(20, 79, 341, 48);
+    			textArea_1.setBounds(20, 79, 341, 48);
+    			btnGood.setBounds(373, 78, 45, 23);
+    			btnBad.setBounds(373, 104, 45, 23);
+    			btnSend.setBounds(421, 78, 61, 49);
+    			
+    			label_1.setBounds(10, 137, 54, 15);
+    			scrollPane_1.setBounds(20, 152, 341, 48);
+    			textArea_2.setBounds(20, 152, 341, 48);
+    			button_4.setBounds(373, 152, 45, 23);
+    			button_1.setBounds(373, 177, 45, 23);
+    			button.setBounds(421, 152, 61, 49);
+    			
+    			label_2.setBounds(10, 211, 54, 15);
+    			scrollPane_2.setBounds(20, 229, 341, 48);
+    			textArea_3.setBounds(20, 229, 341, 48);
+    			button_3.setBounds(373, 229, 45, 23);
+    			button_5.setBounds(373, 254, 45, 23);
+    			button_2.setBounds(421, 230, 61, 49);
+                }
+
+            if(numzanbaidu>=numzanbing && numzanbing>=numzanyoudao){
+                label.setBounds(10, 64, 54, 15);
+    			scrollPane.setBounds(20, 79, 341, 48);
+    			textArea_1.setBounds(20, 79, 341, 48);
+    			btnGood.setBounds(373, 78, 45, 23);
+    			btnBad.setBounds(373, 104, 45, 23);
+    			btnSend.setBounds(421, 78, 61, 49);
+    			
+    			label_2.setBounds(10, 137, 54, 15);
+    			scrollPane_2.setBounds(20, 152, 341, 48);
+    			textArea_3.setBounds(20, 152, 341, 48);
+    			button_3.setBounds(373, 152, 45, 23);
+    			button_5.setBounds(373, 177, 45, 23);
+    			button_2.setBounds(421, 152, 61, 49);
+    			
+    			label_1.setBounds(10, 211, 54, 15);
+    			scrollPane_1.setBounds(20, 229, 341, 48);
+    			textArea_2.setBounds(20, 229, 341, 48);
+    			button_4.setBounds(373, 229, 45, 23);
+    			button_1.setBounds(373, 254, 45, 23);
+    			button.setBounds(421, 230, 61, 49);
+                }
+
+            if(numzanyoudao>=numzanbaidu && numzanbaidu>=numzanbing){
+                label_1.setBounds(10, 64, 54, 15);
+    			scrollPane_1.setBounds(20, 79, 341, 48);
+    			textArea_2.setBounds(20, 79, 341, 48);
+    			button_4.setBounds(373, 78, 45, 23);
+    			button_1.setBounds(373, 104, 45, 23);
+    			button.setBounds(421, 78, 61, 49);
+    			
+    			label.setBounds(10, 137, 54, 15);
+    			scrollPane.setBounds(20, 152, 341, 48);
+    			textArea_1.setBounds(20, 152, 341, 48);
+    			btnGood.setBounds(373, 152, 45, 23);
+    			btnBad.setBounds(373, 177, 45, 23);
+    			btnSend.setBounds(421, 152, 61, 49);
+    			
+    			label_2.setBounds(10, 211, 54, 15);
+    			scrollPane_2.setBounds(20, 229, 341, 48);
+    			textArea_3.setBounds(20, 229, 341, 48);
+    			button_3.setBounds(373, 229, 45, 23);
+    			button_5.setBounds(373, 254, 45, 23);
+    			button_2.setBounds(421, 230, 61, 49);
+                }
+
+            if(numzanyoudao>=numzanbing && numzanbing>=numzanbaidu){
+                label_1.setBounds(10, 64, 54, 15);
+    			scrollPane_1.setBounds(20, 79, 341, 48);
+    			textArea_2.setBounds(20, 79, 341, 48);
+    			button_4.setBounds(373, 78, 45, 23);
+    			button_1.setBounds(373, 104, 45, 23);
+    			button.setBounds(421, 78, 61, 49);
+    			
+    			label_2.setBounds(10, 137, 54, 15);
+    			scrollPane_2.setBounds(20, 152, 341, 48);
+    			textArea_3.setBounds(20, 152, 341, 48);
+    			button_3.setBounds(373, 152, 45, 23);
+    			button_5.setBounds(373, 177, 45, 23);
+    			button_2.setBounds(421, 152, 61, 49);
+    			
+    			label.setBounds(10, 211, 54, 15);
+    			scrollPane.setBounds(20, 229, 341, 48);
+    			textArea_1.setBounds(20, 229, 341, 48);
+    			btnGood.setBounds(373, 229, 45, 23);
+    			btnBad.setBounds(373, 254, 45, 23);
+    			btnSend.setBounds(421, 230, 61, 49);
+                }
+
+            if(numzanbing>=numzanbaidu && numzanbaidu>=numzanyoudao){
+                label_2.setBounds(10, 64, 54, 15);
+    			scrollPane_2.setBounds(20, 79, 341, 48);
+    			textArea_3.setBounds(20, 79, 341, 48);
+    			button_3.setBounds(373, 78, 45, 23);
+    			button_5.setBounds(373, 104, 45, 23);
+    			button_2.setBounds(421, 78, 61, 49);
+    			
+    			label.setBounds(10, 137, 54, 15);
+    			scrollPane.setBounds(20, 152, 341, 48);
+    			textArea_1.setBounds(20, 152, 341, 48);
+    			btnGood.setBounds(373, 152, 45, 23);
+    			btnBad.setBounds(373, 177, 45, 23);
+    			btnSend.setBounds(421, 152, 61, 49);
+    			
+    			label_1.setBounds(10, 211, 54, 15);
+    			scrollPane_1.setBounds(20, 229, 341, 48);
+    			textArea_2.setBounds(20, 229, 341, 48);
+    			button_4.setBounds(373, 229, 45, 23);
+    			button_1.setBounds(373, 254, 45, 23);
+    			button.setBounds(421, 230, 61, 49);
+                }
+            if(numzanbing>=numzanyoudao && numzanyoudao>=numzanbaidu){
+                label_2.setBounds(10, 64, 54, 15);
+    			scrollPane_2.setBounds(20, 79, 341, 48);
+    			textArea_3.setBounds(20, 79, 341, 48);
+    			button_3.setBounds(373, 78, 45, 23);
+    			button_5.setBounds(373, 104, 45, 23);
+    			button_2.setBounds(421, 78, 61, 49);
+    			
+    			label_1.setBounds(10, 137, 54, 15);
+    			scrollPane_1.setBounds(20, 152, 341, 48);
+    			textArea_2.setBounds(20, 152, 341, 48);
+    			button_4.setBounds(373, 152, 45, 23);
+    			button_1.setBounds(373, 177, 45, 23);
+    			button.setBounds(421, 152, 61, 49);
+    			
+    			label.setBounds(10, 211, 54, 15);
+    			scrollPane.setBounds(20, 229, 341, 48);
+    			textArea_1.setBounds(20, 229, 341, 48);
+    			btnGood.setBounds(373, 229, 45, 23);
+    			btnSend.setBounds(373, 254, 45, 23);
+    			btnSend.setBounds(421, 230, 61, 49);
+                }
 			textArea_1.setText("");
 			textArea_2.setText("");
 			textArea_3.setText("");
 			String result="";
-			result=regex_baidu.baidusearch(inputWord);
+			String result2="";
+			String result3="";
+			//result=regex_baidu.baidusearch(inputWord);
+			result=fromServer.readUTF();
 			textArea_1.setText(result);
-			result=regex_bing.bingsearch(inputWord);
-			textArea_2.setText(result);
-			result=regex_youdao.youdaosearch(inputWord);
-			textArea_3.setText(result);
+			//result=regex_bing.bingsearch(inputWord);
+			result2=fromServer.readUTF();
+			textArea_2.setText(result2);
+			//result=regex_youdao.youdaosearch(inputWord);
+			result3=fromServer.readUTF();
+			textArea_3.setText(result3);
 		}
 		if(type==5 && flag==true){
             label.setVisible(true);
+            scrollPane.setVisible(true);
             textArea_1.setVisible(true);
             btnSend.setVisible(true);
             btnGood.setVisible(true);
             btnBad.setVisible(true);
             
             label_1.setVisible(true);
+            scrollPane_1.setVisible(true);
             textArea_2.setVisible(true);
             button.setVisible(true);
             button_1.setVisible(true);
             button_4.setVisible(true);
 			
             label_2.setVisible(false);
+            scrollPane_2.setVisible(false);
             textArea_3.setVisible(false);
             button_2.setVisible(false);
             button_3.setVisible(false);
             button_5.setVisible(false);
 			
+            if(numzanbaidu>=numzanyoudao){
+                label.setBounds(10, 64, 54, 15);
+    			scrollPane.setBounds(20, 79, 341, 48);
+    			textArea_1.setBounds(20, 79, 341, 48);
+    			btnGood.setBounds(373, 78, 45, 23);
+    			btnBad.setBounds(373, 104, 45, 23);
+    			btnSend.setBounds(421, 78, 61, 49);
+    			
+    			label_1.setBounds(10, 137, 54, 15);
+    			scrollPane_1.setBounds(20, 152, 341, 48);
+    			textArea_2.setBounds(20, 152, 341, 48);
+    			button_4.setBounds(373, 152, 45, 23);
+    			button_1.setBounds(373, 177, 45, 23);
+    			button.setBounds(421, 152, 61, 49);
+                }
+            else{
+            	label_1.setBounds(10, 64, 54, 15);
+            	scrollPane_1.setBounds(20, 79, 341, 48);
+            	textArea_2.setBounds(20, 79, 341, 48);
+            	button_4.setBounds(373, 78, 45, 23);
+            	button_1.setBounds(373, 104, 45, 23);
+            	button.setBounds(421, 78, 61, 49);
+            	
+            	label.setBounds(10, 137, 54, 15);
+            	scrollPane.setBounds(20, 152, 341, 48);
+            	textArea_1.setBounds(20, 152, 341, 48);
+            	btnGood.setBounds(373, 152, 45, 23);
+            	btnBad.setBounds(373, 177, 45, 23);
+            	btnSend.setBounds(421, 152, 61, 49);
+                }
+            
 			textArea_1.setText("");
 			textArea_2.setText("");
 			String result="";
-			result=regex_baidu.baidusearch(inputWord);
+			String result2="";
+			//result=regex_baidu.baidusearch(inputWord);
+			result=fromServer.readUTF();
 			textArea_1.setText(result);
-			result=regex_bing.bingsearch(inputWord);
-			textArea_2.setText(result);
+			//result=regex_bing.bingsearch(inputWord);
+			result2=fromServer.readUTF();
+			textArea_2.setText(result2);
 		}
 		if(type==6 && flag==true){
             label.setVisible(true);
+            scrollPane.setVisible(true);
             textArea_1.setVisible(true);
             btnSend.setVisible(true);
             btnGood.setVisible(true);
             btnBad.setVisible(true);
 			
             label_1.setVisible(false);
+            scrollPane_1.setVisible(false);
             textArea_2.setVisible(false);
             button.setVisible(false);
             button_1.setVisible(false);
             button_4.setVisible(false);
 			
             label_2.setVisible(true);
+            scrollPane_2.setVisible(true);
             textArea_3.setVisible(true);
             button_2.setVisible(true);
             button_3.setVisible(true);
             button_5.setVisible(true);
 			
+            if(numzanbaidu>=numzanbing){
+                label.setBounds(10, 64, 54, 15);
+    			scrollPane.setBounds(20, 79, 341, 48);
+    			textArea_1.setBounds(20, 79, 341, 48);
+    			btnGood.setBounds(373, 78, 45, 23);
+    			btnBad.setBounds(373, 104, 45, 23);
+    			btnSend.setBounds(421, 78, 61, 49);
+    			
+    			label_2.setBounds(10, 137, 54, 15);
+    			scrollPane_2.setBounds(20, 152, 341, 48);
+    			textArea_3.setBounds(20, 152, 341, 48);
+    			button_3.setBounds(373, 152, 45, 23);
+    			button_5.setBounds(373, 177, 45, 23);
+    			button_2.setBounds(421, 152, 61, 49);
+                }
+            else{
+            	label_2.setBounds(10, 64, 54, 15);
+            	scrollPane_2.setBounds(20, 79, 341, 48);
+            	textArea_3.setBounds(20, 79, 341, 48);
+            	button_3.setBounds(373, 78, 45, 23);
+            	button_5.setBounds(373, 104, 45, 23);
+            	button_2.setBounds(421, 78, 61, 49);
+            	
+            	label.setBounds(10, 137, 54, 15);
+            	scrollPane.setBounds(20, 152, 341, 48);
+            	textArea_1.setBounds(20, 152, 341, 48);
+            	btnGood.setBounds(373, 152, 45, 23);
+            	btnBad.setBounds(373, 177, 45, 23);
+            	btnSend.setBounds(421, 152, 61, 49);
+                }
+            
 			textArea_1.setText("");
 			textArea_3.setText("");
 			String result="";
-			result=regex_baidu.baidusearch(inputWord);
+			String result3="";
+			//result=regex_baidu.baidusearch(inputWord);
+			result=fromServer.readUTF();
 			textArea_1.setText(result);
-			result=regex_youdao.youdaosearch(inputWord);
-			textArea_3.setText(result);
+			//result=regex_youdao.youdaosearch(inputWord);
+			result3=fromServer.readUTF();
+			textArea_3.setText(result3);
 		}
 		if(type==7 && flag==true){
             label.setVisible(false);
+            scrollPane.setVisible(false);
             textArea_1.setVisible(false);
             btnSend.setVisible(false);
             btnGood.setVisible(false);
             btnBad.setVisible(false);
 			
             label_1.setVisible(true);
+            scrollPane_1.setVisible(true);
             textArea_2.setVisible(true);
             button.setVisible(true);
             button_1.setVisible(true);
@@ -606,53 +918,68 @@ public class UI {
 
 
             label_2.setVisible(true);
+            scrollPane_2.setVisible(true);
             textArea_3.setVisible(true);
             button_2.setVisible(true);
             button_3.setVisible(true);
             button_5.setVisible(true);
 			
-			textArea_2.setText("");
-			textArea_3.setText("");
-			String result="";
-			result=regex_bing.bingsearch(inputWord);
-			textArea_2.setText(result);
-			result=regex_youdao.youdaosearch(inputWord);
-			textArea_3.setText(result);
-		}
-		if(type==8 && flag==true){
-            label.setVisible(false);
-            textArea_1.setVisible(false);
-            btnSend.setVisible(false);
-            btnGood.setVisible(false);
-            btnBad.setVisible(false);
+            if(numzanyoudao>=numzanbing){
+                label_1.setBounds(10, 64, 54, 15);
+    			scrollPane_1.setBounds(20, 79, 341, 48);
+    			textArea_2.setBounds(20, 79, 341, 48);
+    			button_4.setBounds(373, 78, 45, 23);
+    			button_1.setBounds(373, 104, 45, 23);
+    			button.setBounds(421, 78, 61, 49);
+    			
+    			label_2.setBounds(10, 137, 54, 15);
+    			scrollPane_2.setBounds(20, 152, 341, 48);
+    			textArea_3.setBounds(20, 152, 341, 48);
+    			button_3.setBounds(373, 152, 45, 23);
+    			button_5.setBounds(373, 177, 45, 23);
+    			button_2.setBounds(421, 152, 61, 49);
+                }
+            else{
+            	label_2.setBounds(10, 64, 54, 15);
+            	scrollPane_2.setBounds(20, 79, 341, 48);
+            	textArea_3.setBounds(20, 79, 341, 48);
+            	button_3.setBounds(373, 78, 45, 23);
+            	button_5.setBounds(373, 104, 45, 23);
+            	button_2.setBounds(421, 78, 61, 49);
+            	
+            	label_1.setBounds(10, 137, 54, 15);
+            	scrollPane_1.setBounds(20, 152, 341, 48);
+            	textArea_2.setBounds(20, 152, 341, 48);
+            	button_4.setBounds(373, 152, 45, 23);
+            	button_1.setBounds(373, 177, 45, 23);
+            	button.setBounds(421, 152, 61, 49);
+                }
             
-            label_1.setVisible(false);
-            textArea_2.setVisible(false);
-            button.setVisible(false);
-            button_1.setVisible(false);
-            button_4.setVisible(false);
-
-            label_2.setVisible(false);
-            textArea_3.setVisible(false);
-            button_2.setVisible(false);
-            button_3.setVisible(false);
-            button_5.setVisible(false);
-			
-			textArea_1.setText("");
 			textArea_2.setText("");
 			textArea_3.setText("");
-			String result="";
-			result=regex_baidu.baidusearch(inputWord);
-			textArea_1.setText(result);
-			result=regex_bing.bingsearch(inputWord);
-			textArea_2.setText(result);
-			result=regex_youdao.youdaosearch(inputWord);
-			textArea_3.setText(result);
+			String result2="";
+			String result3="";
+			//result=regex_bing.bingsearch(inputWord);
+			result2=fromServer.readUTF();
+			textArea_2.setText(result2);
+			//result=regex_youdao.youdaosearch(inputWord);
+			result3=fromServer.readUTF();
+			textArea_3.setText(result3);
 		}
+		
 		if(flag==true){
+			Statement statement = DataBase.connect().createStatement();
+			ResultSet resultSet=statement.executeQuery("select 1 from dictionary where Word='"+inputWord+"'");
+			//对是否已在数据库进行判断
+			if(!resultSet.next()){
 			DictionaryManager dic=new DictionaryManager();
 			dic.AddWord(inputWord);
+			}
 		}
+		}catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} 
 		
 	}
 	public int judge_type(JCheckBox box,JCheckBox box_1,JCheckBox box_2){
