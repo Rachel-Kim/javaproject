@@ -227,6 +227,9 @@ public class Server extends JFrame{
 					}
 					if(requesttype==7){ //服务器接收来自客户端的修改密码申请
 						jta.append("receive MODIFY PASSWORD reqeust "+'\n');
+						String uid=inputFromClient.readUTF();
+						String oldpw=inputFromClient.readUTF();
+						String newpw=inputFromClient.readUTF();
 						
 					}
 					
