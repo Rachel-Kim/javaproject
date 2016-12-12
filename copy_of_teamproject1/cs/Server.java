@@ -1,6 +1,7 @@
 package cs;
 import java.io.*;
 import java.net.*;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,7 +9,7 @@ import java.util.*;
 import java.awt.*;
 import javax.swing.*;
 
-import net.regex_baidu;
+import net.regex_iciba;
 import net.regex_bing;
 import net.regex_youdao;
 import DataBase.DataBase;
@@ -17,6 +18,8 @@ import DataBase.UserManager;
 import ClientUI.UI3;
 public class Server extends JFrame{
 	private JTextArea jta=new JTextArea();
+	private static Connection conn = null;
+	public static int numzanjinshan,numzanyoudao,numzanbing;
 	public static void main(String[] args){
 		new Server();
 		
@@ -65,15 +68,27 @@ public class Server extends JFrame{
 					if(requesttype==1){//服务器接收来自客户端的在网络查词的申请
 						jta.append("receive  SEARCH WORD request  "+'\n');
 					String inputword=inputFromClient.readUTF();
+					conn = DataBase.connect();
+					Statement statement = conn.createStatement();
+					ResultSet resultSet=statement.executeQuery("select * from dictionary where Word='"+inputword+"'");
+					while(resultSet.next()){
+						numzanjinshan=resultSet.getInt(2);
+						numzanyoudao=resultSet.getInt(3);
+						numzanbing=resultSet.getInt(4);
+					}
+					outputToClient.writeInt(numzanjinshan);
+					outputToClient.writeInt(numzanyoudao);
+					outputToClient.writeInt(numzanbing);
 					int TYPE=inputFromClient.readInt();
+					
 					String result=" ";
 					String result2=" ";
 					String result3=" ";
 					if(TYPE==1){
-						result=regex_baidu.baidusearch(inputword);
+						result=regex_iciba.icibasearch(inputword);
 						outputToClient.writeUTF(result);
 						jta.append("word received from client:"+inputword+'\n');
-						jta.append("baidusearch result:" + result + '\n');
+						jta.append("jinshansearch result:" + result + '\n');
 					}
 					else if(TYPE==2){
 						result=regex_bing.bingsearch(inputword);
@@ -88,33 +103,33 @@ public class Server extends JFrame{
 						jta.append("youdaosearch result:" + result + '\n');
 					}
 					else if(TYPE==4){
-						result=regex_baidu.baidusearch(inputword);
+						result=regex_iciba.icibasearch(inputword);
 						result2=regex_bing.bingsearch(inputword);
 						result3=regex_youdao.youdaosearch(inputword);
 						outputToClient.writeUTF(result);
 						outputToClient.writeUTF(result2);
 						outputToClient.writeUTF(result3);
 						jta.append("word received from client:"+inputword+'\n');
-						jta.append("baidusearch result:" + result + '\n');
+						jta.append("jinshansearch result:" + result + '\n');
 						jta.append("bingsearch result:" + result2 + '\n');
 						jta.append("youdaosearch result:" + result3 + '\n');
 					}
 					else if(TYPE==5){
-						result=regex_baidu.baidusearch(inputword);
+						result=regex_iciba.icibasearch(inputword);
 						result2=regex_bing.bingsearch(inputword);
 						outputToClient.writeUTF(result);
 						outputToClient.writeUTF(result2);
 						jta.append("word received from client:"+inputword+'\n');
-						jta.append("baidusearch result:" + result + '\n');
+						jta.append("jinshansearch result:" + result + '\n');
 						jta.append("bingsearch result:" + result2 + '\n');
 					}
 					else if(TYPE==6){
-						result=regex_baidu.baidusearch(inputword);
+						result=regex_iciba.icibasearch(inputword);
 						result3=regex_youdao.youdaosearch(inputword);
 						outputToClient.writeUTF(result);
 						outputToClient.writeUTF(result3);
 						jta.append("word received from client:"+inputword+'\n');
-						jta.append("baidusearch result:" + result + '\n');
+						jta.append("jinshansearch result:" + result + '\n');
 						jta.append("youdaosearch result:" + result3 + '\n');
 					}
 					else if(TYPE==7){
@@ -127,14 +142,14 @@ public class Server extends JFrame{
 						jta.append("youdaosearch result:" + result3 + '\n');
 					}
 					else if(TYPE==8){
-						result=regex_baidu.baidusearch(inputword);
+						result=regex_iciba.icibasearch(inputword);
 						result2=regex_bing.bingsearch(inputword);
 						result3=regex_youdao.youdaosearch(inputword);
 						outputToClient.writeUTF(result);
 						outputToClient.writeUTF(result2);
 						outputToClient.writeUTF(result3);
 						jta.append("word received from client:"+inputword+'\n');
-						jta.append("baidusearch result:" + result + '\n');
+						jta.append("jinshansearch result:" + result + '\n');
 						jta.append("bingsearch result:" + result2 + '\n');
 						jta.append("youdaosearch result:" + result3 + '\n');
 					}
@@ -151,17 +166,20 @@ public class Server extends JFrame{
 						dic.AddWord(inputword);
 						jta.append("add word to database successfully!"+'\n');
 						}
+						else{
+							jta.append("word exists! add word to database failed! "+'\n');
+						}
 					}
 					if(requesttype==3){  //服务器接收来自客户端的点赞请求
 						String praisekind=inputFromClient.readUTF();
 						String inputword=inputFromClient.readUTF();
 						String Uid=inputFromClient.readUTF();
-						if(praisekind.equals("baidu")){
-							jta.append("receive ADD BAIDU PRAISE request  "+'\n');
+						if(praisekind.equals("jinshan")){
+							jta.append("receive ADD JINSHAN PRAISE request  "+'\n');
 							DictionaryManager dic=new DictionaryManager();
 							dic.AddPraise(Uid, inputword, 1);
-							jta.append("add baidu praise successfully!"+'\n');
-							outputToClient.writeUTF("add baidu praise successfully!");
+							jta.append("add jinshan praise successfully!"+'\n');
+							outputToClient.writeUTF("add jinshan praise successfully!");
 						}
 						if(praisekind.equals("youdao")){
 							jta.append("receive ADD YOUDAO PRAISE request  "+'\n');
@@ -182,12 +200,12 @@ public class Server extends JFrame{
 						String praisekind=inputFromClient.readUTF();
 						String inputword=inputFromClient.readUTF();
 						String Uid=inputFromClient.readUTF();
-						if(praisekind.equals("baidu")){
-							jta.append("receive BAIDU DELPRAISE request  "+'\n');
+						if(praisekind.equals("jinshan")){
+							jta.append("receive JINSHAN DELPRAISE request  "+'\n');
 							DictionaryManager dic=new DictionaryManager();
 							dic.DelPraise(Uid, inputword, 1);
-							jta.append("baidu delpraise successfully!"+'\n');
-							outputToClient.writeUTF("baidu delpraise successfully!");
+							jta.append("jinshan delpraise successfully!"+'\n');
+							outputToClient.writeUTF("jinshan delpraise successfully!");
 						}
 						if(praisekind.equals("youdao")){
 							jta.append("receive YOUDAO DELPRAISE request  "+'\n');
@@ -230,7 +248,30 @@ public class Server extends JFrame{
 						String uid=inputFromClient.readUTF();
 						String oldpw=inputFromClient.readUTF();
 						String newpw=inputFromClient.readUTF();
-						
+						if(UserManager.changePassword(uid, oldpw, newpw)==true){
+							jta.append("modify password successfully!  "+'\n');
+							outputToClient.writeUTF("modify password successfully!");
+						}
+						else{
+							jta.append("modify password failed!  "+'\n');
+							outputToClient.writeUTF("modify password failed!");
+						}
+					}
+					if(requesttype==8){//服务器接收来自客户端的添加好友申请
+						jta.append("receive ADD FRIENDS request   "+'\n');
+						String usid=inputFromClient.readUTF();
+						conn= DataBase.connect();
+						Statement statement =conn.createStatement();
+						ResultSet resultSet=statement.executeQuery("select 1 from usertable where username='"+usid+"'");
+						//对是否已在数据库进行判断
+						if(!resultSet.next()){
+							jta.append("no such user! "+'\n');
+							outputToClient.writeUTF("no such user! ");
+						}
+						else{
+							jta.append("search the user successfully! "+'\n');
+							outputToClient.writeUTF("search the user successfully! ");
+						}
 					}
 					
 			}//while

@@ -8,7 +8,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 //Using Type to discriminate meanings from different sources
-//Type 1:Baidu
+//Type 1:Jinshan
 //Type 2:Bing
 //Type 3:Youdao
 
@@ -20,7 +20,7 @@ public class DictionaryManager {
 			Statement statement = DataBase.connect().createStatement();
 			//String sql = "insert into Dictionary(Word) values('"
 			//		+ word+"');";
-			String sql = "insert into Dictionary(Word,NumZanBaidu,NumZanYoudao,NumZanBing) values('"
+			String sql = "insert into Dictionary(Word,NumZanJinshan,NumZanYoudao,NumZanBing) values('"
 					+ word +"',0,0,0);";
 			statement.execute(sql);
 			change = true;
@@ -41,7 +41,7 @@ public class DictionaryManager {
 			Statement statement = conn.createStatement();
 			String sql = null;
 			if(addpraisetype == 1)
-				sql = "insert into BaiduPraise(username,Word) values('"+ username + "','"+ word + "');";
+				sql = "insert into JinshanPraise(username,Word) values('"+ username + "','"+ word + "');";
 			if(addpraisetype==2)
 				sql = "insert into YouDaoPraise(username,Word) values('"+ username + "','"+ word + "');";
 			if(addpraisetype==3)
@@ -66,7 +66,7 @@ public class DictionaryManager {
 			Statement statement=conn.createStatement();
 			String sql=null;
 			if(delpraisetype==1)
-				sql="delete from BaiduPraise where username = '"+ username + "' and word = '"+ word + "';";
+				sql="delete from JinshanPraise where username = '"+ username + "' and word = '"+ word + "';";
 			if(delpraisetype==2)
 				sql="delete from YouDaoPraise where username = '"+ username + "' and word = '"+ word + "';";
 			if(delpraisetype==3)

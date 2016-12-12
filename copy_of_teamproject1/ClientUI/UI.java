@@ -26,7 +26,7 @@ import org.jvnet.substance.skin.NebulaBrickWallSkin;
 import org.jvnet.substance.theme.SubstanceTerracottaTheme;
 import org.jvnet.substance.watermark.SubstanceBubblesWatermark;
 
-import net.regex_baidu;
+import net.regex_iciba;
 import net.regex_bing;
 import net.regex_youdao;
 import DataBase.DataBase;
@@ -40,7 +40,7 @@ public class UI {
 	public DataInputStream fromServer;
 	public static String inputWord;
 	public static Socket socket;
-	public static int numzanbaidu,numzanyoudao,numzanbing;
+	public static int numzanjinshan,numzanyoudao,numzanbing;
 	/**
 	 * Launch the application.
 	 */
@@ -48,8 +48,8 @@ public class UI {
 	int count1_1=0,count1_2=0,count2_1=0,count2_2=0,count3_1=0,count3_2=0;
 	//boolean login=false;
 	public static void main(String[] args) {
-		System.out.println("Hello,This is the sever!!");
-		DataBase.connect();
+		//System.out.println("Hello,This is the sever!!");
+		//DataBase.connect();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -113,7 +113,7 @@ public class UI {
 		checkBox_1.setBounds(92, 37, 78, 23);
 		panel.add(checkBox_1);
 		
-		JCheckBox checkBox = new JCheckBox("百度");
+		JCheckBox checkBox = new JCheckBox("金山");
 		checkBox.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		checkBox.setBounds(10, 37, 55, 23);
 		panel.add(checkBox);
@@ -164,7 +164,7 @@ public class UI {
 		btnGood.setBounds(373, 78, 45, 23);
 		panel.add(btnGood);
 		
-		JLabel label = new JLabel("百度");
+		JLabel label = new JLabel("金山");
 		label.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		label.setBounds(10, 64, 54, 15);
 		panel.add(label);
@@ -264,6 +264,8 @@ public class UI {
 		btnNewButton.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				UI5 frame5=new UI5();
+				frame5.setVisible(true);
 			}
 		});
 		btnNewButton.setBounds(541, 294, 116, 23);
@@ -394,7 +396,7 @@ public class UI {
 					} 
 	            }
 	        });
-	//baiduaddpraise
+	//jinshanaddpraise
 		 btnGood.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseReleased(MouseEvent arg0) {
@@ -404,7 +406,7 @@ public class UI {
 					else{
 						try {
 							toServer.writeInt(3);
-							toServer.writeUTF("baidu");
+							toServer.writeUTF("jinshan");
 							toServer.writeUTF(inputWord);
 							toServer.writeUTF(UI3.uid);
 							String s=fromServer.readUTF();
@@ -417,7 +419,7 @@ public class UI {
 					}
 				}
 			});
-		 //baidudelpraise
+		 //jinshandelpraise
 		 btnBad.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseReleased(MouseEvent e) {
@@ -427,7 +429,7 @@ public class UI {
 					else{
 						try {
 							toServer.writeInt(4);
-							toServer.writeUTF("baidu");
+							toServer.writeUTF("jinshan");
 							toServer.writeUTF(inputWord);
 							toServer.writeUTF(UI3.uid);
 							String s=fromServer.readUTF();
@@ -586,17 +588,20 @@ public class UI {
 			toServer=new DataOutputStream(socket.getOutputStream());
 			toServer.writeInt(1);
     		toServer.writeUTF(inputWord);
+    		numzanjinshan=fromServer.readInt();
+    		numzanyoudao=fromServer.readInt();
+    		numzanbing=fromServer.readInt();
     		toServer.writeInt(type);
 			toServer.flush();
 			
-			Statement statement2 = DataBase.connect().createStatement();
+			/*Statement statement2 = DataBase.connect().createStatement();
 			ResultSet resultSet2=statement2.executeQuery("select * from dictionary where Word='"+inputWord+"'");
 			//int numzanbaidu,numzanyoudao,numzanbing;
 			while(resultSet2.next()){
-				numzanbaidu=resultSet2.getInt(2);
+				numzanjinshan=resultSet2.getInt(2);
 				numzanyoudao=resultSet2.getInt(3);
 				numzanbing=resultSet2.getInt(4);
-			}
+			}*/
 			
 		if(type==1 && flag==true){
 			label.setVisible(true);
@@ -632,7 +637,7 @@ public class UI {
 			result=fromServer.readUTF();
 			textArea_1.setText(result);
 		}
-		if(type==2 && flag==true){
+		else if(type==2 && flag==true){
 			label.setVisible(false);
 			scrollPane.setVisible(false);
 			textArea_1.setVisible(false);
@@ -666,7 +671,7 @@ public class UI {
 			result=fromServer.readUTF();
 			textArea_2.setText(result);
 		}
-		if(type==3 && flag==true){
+		else if(type==3 && flag==true){
 
 			label.setVisible(false);
 			scrollPane.setVisible(false);
@@ -702,7 +707,7 @@ public class UI {
 			textArea_3.setText(result);
 
 		}
-		if((type==4 || type==8) && flag==true){
+		else if((type==4 || type==8) && flag==true){
             label.setVisible(true);
             scrollPane.setVisible(true);
             textArea_1.setVisible(true);
@@ -725,7 +730,7 @@ public class UI {
             button_3.setVisible(true);
             button_5.setVisible(true);
 			
-            if(numzanbaidu>=numzanyoudao && numzanyoudao>=numzanbing){
+            if(numzanjinshan>=numzanyoudao && numzanyoudao>=numzanbing){
                 label.setBounds(10, 64, 54, 15);
     			scrollPane.setBounds(20, 79, 341, 48);
     			textArea_1.setBounds(20, 79, 341, 48);
@@ -748,7 +753,7 @@ public class UI {
     			button_2.setBounds(421, 230, 61, 49);
                 }
 
-            if(numzanbaidu>=numzanbing && numzanbing>=numzanyoudao){
+            else if(numzanjinshan>=numzanbing && numzanbing>=numzanyoudao){
                 label.setBounds(10, 64, 54, 15);
     			scrollPane.setBounds(20, 79, 341, 48);
     			textArea_1.setBounds(20, 79, 341, 48);
@@ -771,7 +776,7 @@ public class UI {
     			button.setBounds(421, 230, 61, 49);
                 }
 
-            if(numzanyoudao>=numzanbaidu && numzanbaidu>=numzanbing){
+            else if(numzanyoudao>=numzanjinshan && numzanjinshan>=numzanbing){
                 label_1.setBounds(10, 64, 54, 15);
     			scrollPane_1.setBounds(20, 79, 341, 48);
     			textArea_2.setBounds(20, 79, 341, 48);
@@ -794,7 +799,7 @@ public class UI {
     			button_2.setBounds(421, 230, 61, 49);
                 }
 
-            if(numzanyoudao>=numzanbing && numzanbing>=numzanbaidu){
+            else if(numzanyoudao>=numzanbing && numzanbing>=numzanjinshan){
                 label_1.setBounds(10, 64, 54, 15);
     			scrollPane_1.setBounds(20, 79, 341, 48);
     			textArea_2.setBounds(20, 79, 341, 48);
@@ -817,7 +822,7 @@ public class UI {
     			btnSend.setBounds(421, 230, 61, 49);
                 }
 
-            if(numzanbing>=numzanbaidu && numzanbaidu>=numzanyoudao){
+            else if(numzanbing>=numzanjinshan && numzanjinshan>=numzanyoudao){
                 label_2.setBounds(10, 64, 54, 15);
     			scrollPane_2.setBounds(20, 79, 341, 48);
     			textArea_3.setBounds(20, 79, 341, 48);
@@ -839,7 +844,7 @@ public class UI {
     			button_1.setBounds(373, 254, 45, 23);
     			button.setBounds(421, 230, 61, 49);
                 }
-            if(numzanbing>=numzanyoudao && numzanyoudao>=numzanbaidu){
+            else if(numzanbing>=numzanyoudao && numzanyoudao>=numzanjinshan){
                 label_2.setBounds(10, 64, 54, 15);
     			scrollPane_2.setBounds(20, 79, 341, 48);
     			textArea_3.setBounds(20, 79, 341, 48);
@@ -877,7 +882,7 @@ public class UI {
 			result3=fromServer.readUTF();
 			textArea_3.setText(result3);
 		}
-		if(type==5 && flag==true){
+		else if(type==5 && flag==true){
             label.setVisible(true);
             scrollPane.setVisible(true);
             textArea_1.setVisible(true);
@@ -899,7 +904,7 @@ public class UI {
             button_3.setVisible(false);
             button_5.setVisible(false);
 			
-            if(numzanbaidu>=numzanyoudao){
+            if(numzanjinshan>=numzanyoudao){
                 label.setBounds(10, 64, 54, 15);
     			scrollPane.setBounds(20, 79, 341, 48);
     			textArea_1.setBounds(20, 79, 341, 48);
@@ -941,7 +946,7 @@ public class UI {
 			result2=fromServer.readUTF();
 			textArea_2.setText(result2);
 		}
-		if(type==6 && flag==true){
+		else if(type==6 && flag==true){
             label.setVisible(true);
             scrollPane.setVisible(true);
             textArea_1.setVisible(true);
@@ -963,7 +968,7 @@ public class UI {
             button_3.setVisible(true);
             button_5.setVisible(true);
 			
-            if(numzanbaidu>=numzanbing){
+            if(numzanjinshan>=numzanbing){
                 label.setBounds(10, 64, 54, 15);
     			scrollPane.setBounds(20, 79, 341, 48);
     			textArea_1.setBounds(20, 79, 341, 48);
@@ -1005,7 +1010,7 @@ public class UI {
 			result3=fromServer.readUTF();
 			textArea_3.setText(result3);
 		}
-		if(type==7 && flag==true){
+		else if(type==7 && flag==true){
             label.setVisible(false);
             scrollPane.setVisible(false);
             textArea_1.setVisible(false);

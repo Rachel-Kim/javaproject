@@ -11,7 +11,7 @@ public class DataBase {
     //jdbc驱动的位置
     private static String driver = "com.mysql.jdbc.Driver";
     //测试用数据库⡰myfirstdbexample在网络上的位置
-    private static String url = "jdbc:mysql://localhost:3306/JavaProject"+
+    private static String url = "jdbc:mysql://localhost:3306/teamproject"+
 		"?useUnicode=true&characterEncoding=utf8";
     //用户名和密码
     private static String user = "root";

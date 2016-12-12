@@ -24,9 +24,9 @@ public class UI4 extends JFrame {
 	private JPanel contentPane;
 	private JTextField idtext;
 	private JPasswordField newpwfield;
-	private JTextField oldpwfield;
 	public DataOutputStream toServer;
 	public DataInputStream fromServer;
+	private JPasswordField oldpwfield;
 
 	/**
 	 * Launch the application.
@@ -75,7 +75,7 @@ public class UI4 extends JFrame {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				String uid=idtext.getText();
-				String oldPw=oldpwfield.getText();
+				String oldPw=new String(oldpwfield.getPassword());
 				String newPw=new String(newpwfield.getPassword());
 				try {
 					fromServer=new DataInputStream(UI.socket.getInputStream());
@@ -86,17 +86,18 @@ public class UI4 extends JFrame {
 					toServer.writeUTF(newPw);
 					String s=fromServer.readUTF();
 					System.out.println(s);
+					if(s.equals("modify password successfully!")){
+						JOptionPane.showMessageDialog(null,"success!", "modify reminder!", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else{
+						JOptionPane.showMessageDialog(null,"fail!", "modify reminder!", JOptionPane.ERROR_MESSAGE);
+					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
-				if(UserManager.changePassword(uid, oldPw, newPw)==true){
-					JOptionPane.showMessageDialog(null,"success!", "modify reminder!", JOptionPane.INFORMATION_MESSAGE);
-				}
-				else{
-					JOptionPane.showMessageDialog(null,"fail!", "modify reminder!", JOptionPane.ERROR_MESSAGE);
-				}
+				
 			}
 		});
 		modifybutton.setFont(new Font("微软雅黑", Font.PLAIN, 19));
@@ -118,14 +119,13 @@ public class UI4 extends JFrame {
 		newpwfield.setBounds(207, 149, 127, 26);
 		contentPane.add(newpwfield);
 		
-		oldpwfield = new JTextField();
-		oldpwfield.setColumns(10);
-		oldpwfield.setBounds(207, 92, 127, 26);
-		contentPane.add(oldpwfield);
-		
 		JLabel lblNewpassword = new JLabel("NEW PASSWORD:");
 		lblNewpassword.setFont(new Font("微软雅黑", Font.PLAIN, 19));
 		lblNewpassword.setBounds(22, 142, 173, 32);
 		contentPane.add(lblNewpassword);
+		
+		oldpwfield = new JPasswordField();
+		oldpwfield.setBounds(207, 95, 127, 26);
+		contentPane.add(oldpwfield);
 	}
 }
