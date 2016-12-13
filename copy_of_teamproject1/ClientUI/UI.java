@@ -46,6 +46,9 @@ public class UI {
 	 */
 	int type=0;
 	int count1_1=0,count1_2=0,count2_1=0,count2_2=0,count3_1=0,count3_2=0;
+	private JTextField jinshanzan;
+	private JTextField youdaozan;
+	private JTextField bingzan;
 	//boolean login=false;
 	public static void main(String[] args) {
 		//System.out.println("Hello,This is the sever!!");
@@ -360,6 +363,24 @@ public class UI {
 		});
 		btnLogIn.setBounds(437, 9, 93, 23);
 		panel.add(btnLogIn);
+		
+		jinshanzan = new JTextField();
+		jinshanzan.setFont(new Font("微软雅黑", Font.PLAIN, 12));
+		jinshanzan.setBounds(41, 61, 28, 18);
+		panel.add(jinshanzan);
+		jinshanzan.setColumns(10);
+		
+		youdaozan = new JTextField();
+		youdaozan.setFont(new Font("微软雅黑", Font.PLAIN, 12));
+		youdaozan.setColumns(10);
+		youdaozan.setBounds(41, 134, 28, 18);
+		panel.add(youdaozan);
+		
+		bingzan = new JTextField();
+		bingzan.setFont(new Font("微软雅黑", Font.PLAIN, 12));
+		bingzan.setColumns(10);
+		bingzan.setBounds(41, 208, 28, 18);
+		panel.add(bingzan);
 	//	ImageIcon image=new ImageIcon("Baidu.jpg");
 	//	JLabel lblNewLabel = new JLabel(image);
 	//	lblNewLabel.setBounds(507, 70, 111, 58);
@@ -629,6 +650,7 @@ public class UI {
 			btnSend.setVisible(true);
 			btnGood.setVisible(true);
 			btnBad.setVisible(true);
+			jinshanzan.setVisible(true);
 			
 			label_1.setVisible(false);
 			scrollPane_1.setVisible(false);
@@ -636,6 +658,7 @@ public class UI {
 			button.setVisible(false);
 			button_1.setVisible(false);
 			button_4.setVisible(false);
+			youdaozan.setVisible(false);
 			
 			label_2.setVisible(false);
 			scrollPane_2.setVisible(false);
@@ -643,6 +666,7 @@ public class UI {
 			button_2.setVisible(false);
 			button_3.setVisible(false);
 			button_5.setVisible(false);
+			bingzan.setVisible(false);
 			
 			label.setBounds(10, 64, 54, 15);
 			scrollPane.setBounds(20, 79, 341, 48);
@@ -650,8 +674,10 @@ public class UI {
 			btnGood.setBounds(373, 78, 45, 23);
 			btnBad.setBounds(373, 104, 45, 23);
 			btnSend.setBounds(421, 78, 61, 49);
+			jinshanzan.setBounds(41, 61, 28, 18);
 			textArea_1.setText("");
 			String result="";
+			jinshanzan.setText(numzanjinshan+"");
 			//result=regex_baidu.baidusearch(inputWord);
 			result=fromServer.readUTF();
 			textArea_1.setText(result);
@@ -666,6 +692,7 @@ public class UI {
 			btnSend.setVisible(false);
 			btnGood.setVisible(false);
 			btnBad.setVisible(false);
+			jinshanzan.setVisible(false);
 			
 			label_1.setVisible(true);
 			scrollPane_1.setVisible(true);
@@ -673,6 +700,7 @@ public class UI {
 			button.setVisible(true);
 			button_1.setVisible(true);
 			button_4.setVisible(true);
+			youdaozan.setVisible(true);
 			
 			label_2.setVisible(false);
 			scrollPane_2.setVisible(false);
@@ -680,6 +708,7 @@ public class UI {
 			button_2.setVisible(false);
 			button_3.setVisible(false);
 			button_5.setVisible(false);
+			bingzan.setVisible(false);
 			
 			label_1.setBounds(10, 64, 54, 15);
 			scrollPane_1.setBounds(20, 79, 341, 48);
@@ -687,8 +716,10 @@ public class UI {
 			button_4.setBounds(373, 78, 45, 23);
 			button_1.setBounds(373, 104, 45, 23);
 			button.setBounds(421, 78, 61, 49);
+			youdaozan.setBounds(41,134,28,18);
 			textArea_2.setText("");
 			String result="";
+			youdaozan.setText(numzanyoudao+"");
 			//result=regex_bing.bingsearch(inputWord);
 			result=fromServer.readUTF();
 			textArea_2.setText(result);
@@ -704,6 +735,7 @@ public class UI {
 			btnSend.setVisible(false);
 			btnGood.setVisible(false);
 			btnBad.setVisible(false);
+			jinshanzan.setVisible(false);
 			
 			label_1.setVisible(false);
 			scrollPane_1.setVisible(false);
@@ -711,6 +743,7 @@ public class UI {
 			button.setVisible(false);
 			button_1.setVisible(false);
 			button_4.setVisible(false);
+			youdaozan.setVisible(false);
 			
             label_2.setVisible(true);
             scrollPane_2.setVisible(true);
@@ -718,6 +751,7 @@ public class UI {
             button_2.setVisible(true);
             button_3.setVisible(true);
             button_5.setVisible(true);
+            bingzan.setVisible(true);
 			
             label_2.setBounds(10, 64, 54, 15);
 			scrollPane_2.setBounds(20, 79, 341, 48);
@@ -725,8 +759,10 @@ public class UI {
 			button_3.setBounds(373, 78, 45, 23);
 			button_5.setBounds(373, 104, 45, 23);
 			button_2.setBounds(421, 78, 61, 49);
+			bingzan.setBounds(41, 208, 28, 18);
             textArea_3.setText("");
 			String result="";
+			bingzan.setText(numzanbing+"");
 			//result=regex_youdao.youdaosearch(inputWord);
 			result=fromServer.readUTF();
 			textArea_3.setText(result);
@@ -742,6 +778,7 @@ public class UI {
             btnSend.setVisible(true);
             btnGood.setVisible(true);
             btnBad.setVisible(true);
+            jinshanzan.setVisible(true);
             
             label_1.setVisible(true);
             scrollPane_1.setVisible(true);
@@ -749,7 +786,7 @@ public class UI {
             button.setVisible(true);
             button_1.setVisible(true);
             button_4.setVisible(true);
-
+            youdaozan.setVisible(true);
 
             label_2.setVisible(true);
             scrollPane_2.setVisible(true);
@@ -757,6 +794,7 @@ public class UI {
             button_2.setVisible(true);
             button_3.setVisible(true);
             button_5.setVisible(true);
+            bingzan.setVisible(true);
 			
             if(numzanjinshan>=numzanyoudao && numzanyoudao>=numzanbing){
                 label.setBounds(10, 64, 54, 15);
@@ -765,6 +803,7 @@ public class UI {
     			btnGood.setBounds(373, 78, 45, 23);
     			btnBad.setBounds(373, 104, 45, 23);
     			btnSend.setBounds(421, 78, 61, 49);
+    			jinshanzan.setBounds(41, 61, 28, 18);
     			
     			label_1.setBounds(10, 137, 54, 15);
     			scrollPane_1.setBounds(20, 152, 341, 48);
@@ -772,6 +811,7 @@ public class UI {
     			button_4.setBounds(373, 152, 45, 23);
     			button_1.setBounds(373, 177, 45, 23);
     			button.setBounds(421, 152, 61, 49);
+    			youdaozan.setBounds(41, 134, 28, 18);
     			
     			label_2.setBounds(10, 211, 54, 15);
     			scrollPane_2.setBounds(20, 229, 341, 48);
@@ -779,6 +819,7 @@ public class UI {
     			button_3.setBounds(373, 229, 45, 23);
     			button_5.setBounds(373, 254, 45, 23);
     			button_2.setBounds(421, 230, 61, 49);
+    			bingzan.setBounds(41, 208, 28, 18);
                 }
 
             else if(numzanjinshan>=numzanbing && numzanbing>=numzanyoudao){
@@ -788,6 +829,7 @@ public class UI {
     			btnGood.setBounds(373, 78, 45, 23);
     			btnBad.setBounds(373, 104, 45, 23);
     			btnSend.setBounds(421, 78, 61, 49);
+    			jinshanzan.setBounds(41, 61, 28, 18);
     			
     			label_2.setBounds(10, 137, 54, 15);
     			scrollPane_2.setBounds(20, 152, 341, 48);
@@ -795,6 +837,7 @@ public class UI {
     			button_3.setBounds(373, 152, 45, 23);
     			button_5.setBounds(373, 177, 45, 23);
     			button_2.setBounds(421, 152, 61, 49);
+    			bingzan.setBounds(41, 134, 28, 18);
     			
     			label_1.setBounds(10, 211, 54, 15);
     			scrollPane_1.setBounds(20, 229, 341, 48);
@@ -802,6 +845,7 @@ public class UI {
     			button_4.setBounds(373, 229, 45, 23);
     			button_1.setBounds(373, 254, 45, 23);
     			button.setBounds(421, 230, 61, 49);
+    			youdaozan.setBounds(41, 208, 28, 18);
                 }
 
             else if(numzanyoudao>=numzanjinshan && numzanjinshan>=numzanbing){
@@ -811,6 +855,7 @@ public class UI {
     			button_4.setBounds(373, 78, 45, 23);
     			button_1.setBounds(373, 104, 45, 23);
     			button.setBounds(421, 78, 61, 49);
+    			youdaozan.setBounds(41, 61, 28, 18);
     			
     			label.setBounds(10, 137, 54, 15);
     			scrollPane.setBounds(20, 152, 341, 48);
@@ -818,6 +863,7 @@ public class UI {
     			btnGood.setBounds(373, 152, 45, 23);
     			btnBad.setBounds(373, 177, 45, 23);
     			btnSend.setBounds(421, 152, 61, 49);
+    			jinshanzan.setBounds(41, 134, 28, 18);
     			
     			label_2.setBounds(10, 211, 54, 15);
     			scrollPane_2.setBounds(20, 229, 341, 48);
@@ -825,6 +871,7 @@ public class UI {
     			button_3.setBounds(373, 229, 45, 23);
     			button_5.setBounds(373, 254, 45, 23);
     			button_2.setBounds(421, 230, 61, 49);
+    			bingzan.setBounds(41, 208, 28, 18);
                 }
 
             else if(numzanyoudao>=numzanbing && numzanbing>=numzanjinshan){
@@ -834,6 +881,7 @@ public class UI {
     			button_4.setBounds(373, 78, 45, 23);
     			button_1.setBounds(373, 104, 45, 23);
     			button.setBounds(421, 78, 61, 49);
+    			youdaozan.setBounds(41, 61, 28, 18);
     			
     			label_2.setBounds(10, 137, 54, 15);
     			scrollPane_2.setBounds(20, 152, 341, 48);
@@ -841,6 +889,7 @@ public class UI {
     			button_3.setBounds(373, 152, 45, 23);
     			button_5.setBounds(373, 177, 45, 23);
     			button_2.setBounds(421, 152, 61, 49);
+    			bingzan.setBounds(41, 134, 28, 18);
     			
     			label.setBounds(10, 211, 54, 15);
     			scrollPane.setBounds(20, 229, 341, 48);
@@ -848,6 +897,7 @@ public class UI {
     			btnGood.setBounds(373, 229, 45, 23);
     			btnBad.setBounds(373, 254, 45, 23);
     			btnSend.setBounds(421, 230, 61, 49);
+    			jinshanzan.setBounds(41, 208, 28, 18);
                 }
 
             else if(numzanbing>=numzanjinshan && numzanjinshan>=numzanyoudao){
@@ -857,6 +907,7 @@ public class UI {
     			button_3.setBounds(373, 78, 45, 23);
     			button_5.setBounds(373, 104, 45, 23);
     			button_2.setBounds(421, 78, 61, 49);
+    			bingzan.setBounds(41, 61, 28, 18);
     			
     			label.setBounds(10, 137, 54, 15);
     			scrollPane.setBounds(20, 152, 341, 48);
@@ -864,6 +915,7 @@ public class UI {
     			btnGood.setBounds(373, 152, 45, 23);
     			btnBad.setBounds(373, 177, 45, 23);
     			btnSend.setBounds(421, 152, 61, 49);
+    			jinshanzan.setBounds(41, 134, 28, 18);
     			
     			label_1.setBounds(10, 211, 54, 15);
     			scrollPane_1.setBounds(20, 229, 341, 48);
@@ -871,6 +923,7 @@ public class UI {
     			button_4.setBounds(373, 229, 45, 23);
     			button_1.setBounds(373, 254, 45, 23);
     			button.setBounds(421, 230, 61, 49);
+    			youdaozan.setBounds(41, 208, 28, 18);
                 }
             else if(numzanbing>=numzanyoudao && numzanyoudao>=numzanjinshan){
                 label_2.setBounds(10, 64, 54, 15);
@@ -879,6 +932,7 @@ public class UI {
     			button_3.setBounds(373, 78, 45, 23);
     			button_5.setBounds(373, 104, 45, 23);
     			button_2.setBounds(421, 78, 61, 49);
+    			bingzan.setBounds(41, 61, 28, 18);
     			
     			label_1.setBounds(10, 137, 54, 15);
     			scrollPane_1.setBounds(20, 152, 341, 48);
@@ -886,6 +940,7 @@ public class UI {
     			button_4.setBounds(373, 152, 45, 23);
     			button_1.setBounds(373, 177, 45, 23);
     			button.setBounds(421, 152, 61, 49);
+    			youdaozan.setBounds(41, 134, 28, 18);
     			
     			label.setBounds(10, 211, 54, 15);
     			scrollPane.setBounds(20, 229, 341, 48);
@@ -893,10 +948,14 @@ public class UI {
     			btnGood.setBounds(373, 229, 45, 23);
     			btnSend.setBounds(373, 254, 45, 23);
     			btnSend.setBounds(421, 230, 61, 49);
+    			jinshanzan.setBounds(41, 208, 28, 18);
                 }
 			textArea_1.setText("");
 			textArea_2.setText("");
 			textArea_3.setText("");
+			jinshanzan.setText(numzanjinshan+"");
+			youdaozan.setText(numzanyoudao+"");
+			bingzan.setText(numzanbing+"");
 			String result="";
 			String result2="";
 			String result3="";
@@ -920,6 +979,7 @@ public class UI {
             btnSend.setVisible(true);
             btnGood.setVisible(true);
             btnBad.setVisible(true);
+            jinshanzan.setVisible(true);
             
             label_1.setVisible(true);
             scrollPane_1.setVisible(true);
@@ -927,13 +987,15 @@ public class UI {
             button.setVisible(true);
             button_1.setVisible(true);
             button_4.setVisible(true);
-			
+			youdaozan.setVisible(true);
+            
             label_2.setVisible(false);
             scrollPane_2.setVisible(false);
             textArea_3.setVisible(false);
             button_2.setVisible(false);
             button_3.setVisible(false);
             button_5.setVisible(false);
+            bingzan.setVisible(false);
 			
             if(numzanjinshan>=numzanyoudao){
                 label.setBounds(10, 64, 54, 15);
@@ -942,13 +1004,15 @@ public class UI {
     			btnGood.setBounds(373, 78, 45, 23);
     			btnBad.setBounds(373, 104, 45, 23);
     			btnSend.setBounds(421, 78, 61, 49);
+    			jinshanzan.setBounds(41,61,28,18);
     			
     			label_1.setBounds(10, 137, 54, 15);
     			scrollPane_1.setBounds(20, 152, 341, 48);
     			textArea_2.setBounds(20, 152, 341, 48);
     			button_4.setBounds(373, 152, 45, 23);
     			button_1.setBounds(373, 177, 45, 23);
-    			button.setBounds(421, 152, 61, 49);
+    			button.setBounds(41, 152, 61, 49);
+    			youdaozan.setBounds(41, 134, 28, 18);
                 }
             else{
             	label_1.setBounds(10, 64, 54, 15);
@@ -957,6 +1021,7 @@ public class UI {
             	button_4.setBounds(373, 78, 45, 23);
             	button_1.setBounds(373, 104, 45, 23);
             	button.setBounds(421, 78, 61, 49);
+            	youdaozan.setBounds(41, 61, 28, 18);
             	
             	label.setBounds(10, 137, 54, 15);
             	scrollPane.setBounds(20, 152, 341, 48);
@@ -964,10 +1029,13 @@ public class UI {
             	btnGood.setBounds(373, 152, 45, 23);
             	btnBad.setBounds(373, 177, 45, 23);
             	btnSend.setBounds(421, 152, 61, 49);
+            	jinshanzan.setBounds(41, 134, 28, 18);
                 }
             
 			textArea_1.setText("");
 			textArea_2.setText("");
+			jinshanzan.setText(numzanjinshan+"");
+			youdaozan.setText(numzanyoudao+"");
 			String result="";
 			String result2="";
 			//result=regex_baidu.baidusearch(inputWord);
@@ -987,6 +1055,7 @@ public class UI {
             btnSend.setVisible(true);
             btnGood.setVisible(true);
             btnBad.setVisible(true);
+            jinshanzan.setVisible(true);
 			
             label_1.setVisible(false);
             scrollPane_1.setVisible(false);
@@ -994,6 +1063,7 @@ public class UI {
             button.setVisible(false);
             button_1.setVisible(false);
             button_4.setVisible(false);
+            youdaozan.setVisible(false);
 			
             label_2.setVisible(true);
             scrollPane_2.setVisible(true);
@@ -1001,6 +1071,7 @@ public class UI {
             button_2.setVisible(true);
             button_3.setVisible(true);
             button_5.setVisible(true);
+            bingzan.setVisible(true);
 			
             if(numzanjinshan>=numzanbing){
                 label.setBounds(10, 64, 54, 15);
@@ -1009,6 +1080,7 @@ public class UI {
     			btnGood.setBounds(373, 78, 45, 23);
     			btnBad.setBounds(373, 104, 45, 23);
     			btnSend.setBounds(421, 78, 61, 49);
+    			jinshanzan.setBounds(41, 61, 28, 18);
     			
     			label_2.setBounds(10, 137, 54, 15);
     			scrollPane_2.setBounds(20, 152, 341, 48);
@@ -1016,6 +1088,7 @@ public class UI {
     			button_3.setBounds(373, 152, 45, 23);
     			button_5.setBounds(373, 177, 45, 23);
     			button_2.setBounds(421, 152, 61, 49);
+    			bingzan.setBounds(41, 134, 28, 18);
                 }
             else{
             	label_2.setBounds(10, 64, 54, 15);
@@ -1024,6 +1097,7 @@ public class UI {
             	button_3.setBounds(373, 78, 45, 23);
             	button_5.setBounds(373, 104, 45, 23);
             	button_2.setBounds(421, 78, 61, 49);
+            	bingzan.setBounds(41, 61, 28, 18);
             	
             	label.setBounds(10, 137, 54, 15);
             	scrollPane.setBounds(20, 152, 341, 48);
@@ -1031,10 +1105,13 @@ public class UI {
             	btnGood.setBounds(373, 152, 45, 23);
             	btnBad.setBounds(373, 177, 45, 23);
             	btnSend.setBounds(421, 152, 61, 49);
+            	jinshanzan.setBounds(41, 134, 28, 18);
                 }
             
 			textArea_1.setText("");
 			textArea_3.setText("");
+			jinshanzan.setText(numzanjinshan+"");
+			bingzan.setText(numzanbing+"");
 			String result="";
 			String result3="";
 			//result=regex_baidu.baidusearch(inputWord);
@@ -1054,6 +1131,7 @@ public class UI {
             btnSend.setVisible(false);
             btnGood.setVisible(false);
             btnBad.setVisible(false);
+            jinshanzan.setVisible(false);
 			
             label_1.setVisible(true);
             scrollPane_1.setVisible(true);
@@ -1061,7 +1139,7 @@ public class UI {
             button.setVisible(true);
             button_1.setVisible(true);
             button_4.setVisible(true);
-
+            youdaozan.setVisible(true);
 
             label_2.setVisible(true);
             scrollPane_2.setVisible(true);
@@ -1069,6 +1147,7 @@ public class UI {
             button_2.setVisible(true);
             button_3.setVisible(true);
             button_5.setVisible(true);
+            bingzan.setVisible(true);
 			
             if(numzanyoudao>=numzanbing){
                 label_1.setBounds(10, 64, 54, 15);
@@ -1077,6 +1156,7 @@ public class UI {
     			button_4.setBounds(373, 78, 45, 23);
     			button_1.setBounds(373, 104, 45, 23);
     			button.setBounds(421, 78, 61, 49);
+    			youdaozan.setBounds(41, 61, 28, 18);
     			
     			label_2.setBounds(10, 137, 54, 15);
     			scrollPane_2.setBounds(20, 152, 341, 48);
@@ -1084,6 +1164,7 @@ public class UI {
     			button_3.setBounds(373, 152, 45, 23);
     			button_5.setBounds(373, 177, 45, 23);
     			button_2.setBounds(421, 152, 61, 49);
+    			bingzan.setBounds(41, 134, 28, 18);
                 }
             else{
             	label_2.setBounds(10, 64, 54, 15);
@@ -1092,6 +1173,7 @@ public class UI {
             	button_3.setBounds(373, 78, 45, 23);
             	button_5.setBounds(373, 104, 45, 23);
             	button_2.setBounds(421, 78, 61, 49);
+            	bingzan.setBounds(41, 61, 28, 18);
             	
             	label_1.setBounds(10, 137, 54, 15);
             	scrollPane_1.setBounds(20, 152, 341, 48);
@@ -1099,10 +1181,13 @@ public class UI {
             	button_4.setBounds(373, 152, 45, 23);
             	button_1.setBounds(373, 177, 45, 23);
             	button.setBounds(421, 152, 61, 49);
+            	youdaozan.setBounds(41, 134, 28, 18);
                 }
             
 			textArea_2.setText("");
 			textArea_3.setText("");
+			youdaozan.setText(numzanyoudao+"");
+			bingzan.setText(numzanbing+"");
 			String result2="";
 			String result3="";
 			//result=regex_bing.bingsearch(inputWord);
