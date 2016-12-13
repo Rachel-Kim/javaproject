@@ -23,7 +23,20 @@ public class UserManager {
 		}
 		return change;
 	}
-	
+	public static void login(String userid){
+		boolean is_login = false;
+		try {
+			conn = DataBase.connect();
+			Statement statement = conn.createStatement();
+			String sql = "insert into Login(username) values('"
+					+userid+"');";
+			is_login = statement.execute(sql);
+			DataBase.close(conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//return is_login;
+	}
 	public static boolean addFriend(String account1, String account2){
 		boolean change = false;
 		try {
@@ -64,7 +77,10 @@ public class UserManager {
 			while(result.next()){
 				if(account.equals(result.getString("username"))
 						&&oldPw.equals(result.getString("password"))){
-					change = statement.execute("update usertable set password = '"+newPw+"' where username = '"+account+"';");
+					//change = statement.execute("update usertable set password = '"+newPw+"' where username = '"+account+"';");
+					int t = statement.executeUpdate("update usertable set password = '"+newPw+"' where username = '"+account+"';");
+					if(t > 0)
+						change = true;
 					break;
 				}
 			}
@@ -73,7 +89,9 @@ public class UserManager {
 		}
 		DataBase.close(conn);
 		return change;
+		//return true;
 	}
+
 	
 	@SuppressWarnings("finally")
 	public static boolean identityVerify(String account,String Pw){

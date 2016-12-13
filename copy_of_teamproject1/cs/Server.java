@@ -33,6 +33,7 @@ public class Server extends JFrame{
 		setVisible(true);
 		
 		try{
+			//服务器监听
 			ServerSocket serverSocket=new ServerSocket(8000);
 			jta.append("Server started at" + new Date()+'\n');
 			int clientNo=1;
@@ -237,6 +238,7 @@ public class Server extends JFrame{
 						if(UserManager.identityVerify(uid, pw)==true){
 							jta.append("log in successfully!  "+'\n');
 							outputToClient.writeUTF("log in successfully!");
+							UserManager.login(uid);
 							}
 						else{
 							jta.append("log in failed! "+'\n');
@@ -270,7 +272,14 @@ public class Server extends JFrame{
 						}
 						else{
 							jta.append("search the user successfully! "+'\n');
-							outputToClient.writeUTF("search the user successfully! ");
+							//outputToClient.writeUTF("search the user successfully! ");
+							resultSet=statement.executeQuery("select 1 from Login where username='"+usid+"'");
+							if(!resultSet.next()){
+								jta.append("the user is offline,I'll send the message when he is online!"+'\n');
+							}
+							else{
+								jta.append("I'm sending the message to the user");
+							}
 						}
 					}
 					

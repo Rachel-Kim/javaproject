@@ -96,7 +96,7 @@ public class UI3 extends JFrame {
 						if(s.equals("log in successfully!")){
 							JOptionPane.showMessageDialog(null,"success!", "Log reminder!", JOptionPane.INFORMATION_MESSAGE);
 							login=true;
-							//setlogin(true);
+							//UserManager.login(uid);
 						}
 						else{
 							JOptionPane.showMessageDialog(null,"fail!", "Log reminder!", JOptionPane.ERROR_MESSAGE);

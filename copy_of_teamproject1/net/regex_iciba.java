@@ -56,7 +56,7 @@ public class regex_iciba {
         URL url = new URL(url_prefix + word.replaceAll(" ", "%20"));
         //System.out.println(text);
         
-        
+        String dest;
         String str  = null;
 
         //Pattern p1;
@@ -85,7 +85,9 @@ public class regex_iciba {
         }
 
         if(st == ""){
-            System.out.println("No Match");
+            //System.out.println("No Match");
+        	dest = "No Match";
+        	return dest;
         }
         //------------------
         //String st = input.nextLine();
@@ -95,7 +97,8 @@ public class regex_iciba {
                         //System.out.println(s);
                           Pattern p = Pattern.compile("\\s*|\t|\r|\n");
                             Matcher mx = p.matcher(s);
-                            String dest = mx.replaceAll("");
+                            //String 
+                            dest = mx.replaceAll("");
                           
                             ans += s;
                         //ans += s.replaceAll("\n", "");
@@ -106,7 +109,8 @@ public class regex_iciba {
                 
                 Pattern p = Pattern.compile("\\s*|\t|\r|\n");
                 Matcher mx = p.matcher(ans);
-                String dest = mx.replaceAll("");
+                //String dest 
+                dest = mx.replaceAll("");
                 
                 //System.out.println(dest);
                 return dest;

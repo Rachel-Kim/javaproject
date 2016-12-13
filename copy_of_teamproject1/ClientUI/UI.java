@@ -87,7 +87,7 @@ public class UI {
 	 */
 	public UI() throws UnknownHostException, IOException {
 		initialize();
-		socket=new Socket("localhost",8000);
+		socket=new Socket("114.212.130.31",8000);
 	}
 
 	/**
