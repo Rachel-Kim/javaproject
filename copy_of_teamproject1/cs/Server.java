@@ -178,23 +178,38 @@ public class Server extends JFrame{
 						if(praisekind.equals("jinshan")){
 							jta.append("receive ADD JINSHAN PRAISE request  "+'\n');
 							DictionaryManager dic=new DictionaryManager();
-							dic.AddPraise(Uid, inputword, 1);
-							jta.append("add jinshan praise successfully!"+'\n');
-							outputToClient.writeUTF("add jinshan praise successfully!");
+							if(dic.AddPraise(Uid, inputword, 1)==true){
+								jta.append("add jinshan praise successfully!"+'\n');
+								outputToClient.writeUTF("add jinshan praise successfully!");
+							}
+							else{
+								jta.append("add jinshan praise failed!"+'\n');
+								outputToClient.writeUTF("add jinshan praise failed!");
+							}
 						}
 						if(praisekind.equals("youdao")){
 							jta.append("receive ADD YOUDAO PRAISE request  "+'\n');
 							DictionaryManager dic=new DictionaryManager();
-							dic.AddPraise(Uid, inputword, 2);
-							jta.append("add youdao praise successfully!"+'\n');
-							outputToClient.writeUTF("add youdao praise successfully!");
+							if(dic.AddPraise(Uid, inputword, 2)==true){
+								jta.append("add youdao praise successfully!"+'\n');
+								outputToClient.writeUTF("add youdao praise successfully!");
+							}
+							else{
+								jta.append("add youdao praise failed!"+'\n');
+								outputToClient.writeUTF("add youdao praise failed!");
+							}
 						}
 						if(praisekind.equals("bing")){
 							jta.append("receive ADD BING PRAISE request  "+'\n');
 							DictionaryManager dic=new DictionaryManager();
-							dic.AddPraise(Uid, inputword, 3);
-							jta.append("add bing praise successfully!"+'\n');
-							outputToClient.writeUTF("add bing praise successfully!");
+							if(dic.AddPraise(Uid, inputword, 3)==true){
+								jta.append("add bing praise successfully!"+'\n');
+								outputToClient.writeUTF("add bing praise successfully!");
+							}
+							else{
+								jta.append("add bing praise failed!"+'\n');
+								outputToClient.writeUTF("add bing praise failed!");
+							}
 						}
 					}
 					if(requesttype==4){//服务器接收来自客户端的取消点赞请求
@@ -204,23 +219,39 @@ public class Server extends JFrame{
 						if(praisekind.equals("jinshan")){
 							jta.append("receive JINSHAN DELPRAISE request  "+'\n');
 							DictionaryManager dic=new DictionaryManager();
-							dic.DelPraise(Uid, inputword, 1);
-							jta.append("jinshan delpraise successfully!"+'\n');
-							outputToClient.writeUTF("jinshan delpraise successfully!");
+							if(dic.DelPraise(Uid, inputword, 1)==true){
+								jta.append("jinshan delpraise successfully!"+'\n');
+								outputToClient.writeUTF("jinshan delpraise successfully!");
+							}
+							else{
+								jta.append("jinshan delpraise failed!"+'\n');
+								outputToClient.writeUTF("jinshan delpraise failed!");
+							}
 						}
 						if(praisekind.equals("youdao")){
 							jta.append("receive YOUDAO DELPRAISE request  "+'\n');
 							DictionaryManager dic=new DictionaryManager();
-							dic.DelPraise(Uid, inputword, 2);
-							jta.append("youdao delpraise successfully!"+'\n');
-							outputToClient.writeUTF("youdao delpraise successfully!");
+							if(dic.DelPraise(Uid, inputword, 2)==true){
+								jta.append("youdao delpraise successfully!"+'\n');
+								outputToClient.writeUTF("youdao delpraise successfully!");
+							}
+							else{
+								jta.append("youdao delpraise failed!"+'\n');
+								outputToClient.writeUTF("youdao delpraise failed!");
+							}
+			
 						}
 						if(praisekind.equals("bing")){
 							jta.append("receive BING DELPRAISE request  "+'\n');
 							DictionaryManager dic=new DictionaryManager();
-							dic.DelPraise(Uid, inputword, 3);
-							jta.append("bing delpraise successfully!"+'\n');
-							outputToClient.writeUTF("bing delpraise successfully!");
+							if(dic.DelPraise(Uid, inputword, 3)==true){
+								jta.append("bing delpraise successfully!"+'\n');
+								outputToClient.writeUTF("bing delpraise successfully!");
+							}
+							else{
+								jta.append("bing delpraise failed!"+'\n');
+								outputToClient.writeUTF("bing delpraise failed!");
+							}
 						}
 					}
 					if(requesttype==5){ //服务器接收来自客户端的注册申请
@@ -238,7 +269,7 @@ public class Server extends JFrame{
 						if(UserManager.identityVerify(uid, pw)==true){
 							jta.append("log in successfully!  "+'\n');
 							outputToClient.writeUTF("log in successfully!");
-							UserManager.login(uid);
+							//UserManager.login(uid);
 							}
 						else{
 							jta.append("log in failed! "+'\n');

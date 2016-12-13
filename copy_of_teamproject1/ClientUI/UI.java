@@ -411,6 +411,9 @@ public class UI {
 							toServer.writeUTF(UI3.uid);
 							String s=fromServer.readUTF();
 							System.out.println(s);
+							if(!s.equals("add jinshan praise successfully!")){
+								JOptionPane.showMessageDialog(null,"你已经点过赞了，不要重复点击!", "系统信息", JOptionPane.ERROR_MESSAGE);
+							}
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -434,6 +437,9 @@ public class UI {
 							toServer.writeUTF(UI3.uid);
 							String s=fromServer.readUTF();
 							System.out.println(s);
+							if(!s.equals("jinshan delpraise successfully!")){
+								JOptionPane.showMessageDialog(null,"你已经点过赞了，不要重复点击!", "系统信息", JOptionPane.ERROR_MESSAGE);
+							}
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -456,7 +462,9 @@ public class UI {
 							toServer.writeUTF(UI3.uid);
 							String s=fromServer.readUTF();
 							System.out.println(s);
-							
+							if(!s.equals("add youdao praise successfully!")){
+								JOptionPane.showMessageDialog(null,"你已经点过赞了，不要重复点击!", "系统信息", JOptionPane.ERROR_MESSAGE);
+							}
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -480,6 +488,9 @@ public class UI {
 							toServer.writeUTF(UI3.uid);
 							String s=fromServer.readUTF();
 							System.out.println(s);
+							if(!s.equals("youdao delpraise successfully!")){
+								JOptionPane.showMessageDialog(null,"你已经点过赞了，不要重复点击!", "系统信息", JOptionPane.ERROR_MESSAGE);
+							}
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -503,6 +514,9 @@ public class UI {
 							toServer.writeUTF(UI3.uid);
 							String s=fromServer.readUTF();
 							System.out.println(s);
+							if(!s.equals("add bing praise successfully!")){
+								JOptionPane.showMessageDialog(null,"你已经点过赞了，不要重复点击!", "系统信息", JOptionPane.ERROR_MESSAGE);
+							}
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -526,6 +540,9 @@ public class UI {
 							toServer.writeUTF(UI3.uid);
 							String s=fromServer.readUTF();
 							System.out.println(s);
+							if(!s.equals("bing delpraise successfully!")){
+								JOptionPane.showMessageDialog(null,"你已经点过赞了，不要重复点击!", "系统信息", JOptionPane.ERROR_MESSAGE);
+							}
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -550,8 +567,10 @@ public class UI {
 			//textArea_3.setText("输入不合法，请输入英文单词！");
 			flag=false;
 		}
-	
-		if(type==1 && flag==false){
+		if(flag==false){
+			JOptionPane.showMessageDialog(null,"输入不合法，请输入英文单词！", "error", JOptionPane.ERROR_MESSAGE);
+		}
+		/**if(type==1 && flag==false){
 			textArea_1.setText("输入不合法，请输入英文单词！");
 		}
 		if(type==2 && flag==false){
@@ -581,7 +600,7 @@ public class UI {
 			textArea_1.setText("输入不合法，请输入英文单词！");
 			textArea_2.setText("输入不合法，请输入英文单词！");
 			textArea_3.setText("输入不合法，请输入英文单词！");
-		}
+		}*/
 		try{
 			//Socket socket=new Socket("localhost",8000);
 			fromServer=new DataInputStream(socket.getInputStream());
@@ -636,6 +655,9 @@ public class UI {
 			//result=regex_baidu.baidusearch(inputWord);
 			result=fromServer.readUTF();
 			textArea_1.setText(result);
+			if(result.equals("No Match")){
+				flag=false;
+			}
 		}
 		else if(type==2 && flag==true){
 			label.setVisible(false);
@@ -670,6 +692,9 @@ public class UI {
 			//result=regex_bing.bingsearch(inputWord);
 			result=fromServer.readUTF();
 			textArea_2.setText(result);
+			if(result.equals("No Match")){
+				flag=false;
+			}
 		}
 		else if(type==3 && flag==true){
 
@@ -705,6 +730,9 @@ public class UI {
 			//result=regex_youdao.youdaosearch(inputWord);
 			result=fromServer.readUTF();
 			textArea_3.setText(result);
+			if(result.equals("No Match")){
+				flag=false;
+			}
 
 		}
 		else if((type==4 || type==8) && flag==true){
@@ -881,6 +909,9 @@ public class UI {
 			//result=regex_youdao.youdaosearch(inputWord);
 			result3=fromServer.readUTF();
 			textArea_3.setText(result3);
+			if(result.equals("No Match") || result2.equals("No Match") || result3.equals("No Match") ){
+				flag=false;
+			}
 		}
 		else if(type==5 && flag==true){
             label.setVisible(true);
@@ -945,6 +976,9 @@ public class UI {
 			//result=regex_bing.bingsearch(inputWord);
 			result2=fromServer.readUTF();
 			textArea_2.setText(result2);
+			if(result.equals("No Match")|| result2.equals("No Match")){
+				flag=false;
+			}
 		}
 		else if(type==6 && flag==true){
             label.setVisible(true);
@@ -1009,6 +1043,9 @@ public class UI {
 			//result=regex_youdao.youdaosearch(inputWord);
 			result3=fromServer.readUTF();
 			textArea_3.setText(result3);
+			if(result.equals("No Match")|| result3.equals("No Match")){
+				flag=false;
+			}
 		}
 		else if(type==7 && flag==true){
             label.setVisible(false);
@@ -1074,6 +1111,9 @@ public class UI {
 			//result=regex_youdao.youdaosearch(inputWord);
 			result3=fromServer.readUTF();
 			textArea_3.setText(result3);
+			if(result2.equals("No Match")|| result3.equals("No Match")){
+				flag=false;
+			}
 		}
 		
 		if(flag==true){

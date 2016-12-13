@@ -47,15 +47,18 @@ public class DictionaryManager {
 			if(addpraisetype==3)
 				sql = "insert into BingPraise(username,Word) values('"+ username + "','"+ word + "');";
 			change = statement.execute(sql);
+			DataBase.close(conn);
+			return true;
 		} catch (SQLException e) {
 			//JOptionPane.showMessageDialog(null,
 			//	       "你已经点过赞了，不要重复点击!", "系统信息", JOptionPane.ERROR_MESSAGE);
+			DataBase.close(conn);
 			return false;
 		}
-		finally{
+		/**finally{
 			DataBase.close(conn);
 			return true;
-		}
+		}*/
 		
 	}
 	public static boolean DelPraise(String username, String word,int delpraisetype){
@@ -73,14 +76,16 @@ public class DictionaryManager {
 				sql="delete from BingPraise where username = '"+ username + "' and word = '"+ word + "';";
 			
 			change=statement.execute(sql);
+			DataBase.close(conn);
+			return true;
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null,
-				       "你还没点过赞", "系统信息", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null,
+			//	       "你还没点过赞", "系统信息", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-		finally{
+		/**finally{
 			DataBase.close(conn);
 		}
-		return true;
+		return true;*/
 	}
 }
