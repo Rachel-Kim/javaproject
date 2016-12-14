@@ -290,29 +290,7 @@ public class Server extends JFrame{
 							outputToClient.writeUTF("modify password failed!");
 						}
 					}
-					if(requesttype==8){//服务器接收来自客户端的添加好友申请
-						jta.append("receive ADD FRIENDS request   "+'\n');
-						String usid=inputFromClient.readUTF();
-						conn= DataBase.connect();
-						Statement statement =conn.createStatement();
-						ResultSet resultSet=statement.executeQuery("select 1 from usertable where username='"+usid+"'");
-						//对是否已在数据库进行判断
-						if(!resultSet.next()){
-							jta.append("no such user! "+'\n');
-							outputToClient.writeUTF("no such user! ");
-						}
-						else{
-							jta.append("search the user successfully! "+'\n');
-							//outputToClient.writeUTF("search the user successfully! ");
-							resultSet=statement.executeQuery("select 1 from Login where username='"+usid+"'");
-							if(!resultSet.next()){
-								jta.append("the user is offline,I'll send the message when he is online!"+'\n');
-							}
-							else{
-								jta.append("I'm sending the message to the user");
-							}
-						}
-					}
+					
 					
 			}//while
 				

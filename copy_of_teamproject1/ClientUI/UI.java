@@ -263,17 +263,6 @@ public class UI {
 		JList list = new JList();
 		scrollPane_3.setViewportView(list);
 		
-		JButton btnNewButton = new JButton("add friends");
-		btnNewButton.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				UI5 frame5=new UI5();
-				frame5.setVisible(true);
-			}
-		});
-		btnNewButton.setBounds(541, 294, 116, 23);
-		panel.add(btnNewButton);
-		
 		JButton btnNewButton_1 = new JButton("log out");
 		btnNewButton_1.addMouseListener(new MouseAdapter() {
 			@Override
