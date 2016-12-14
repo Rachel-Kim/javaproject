@@ -99,7 +99,7 @@ public class UI3 extends JFrame {
 							JOptionPane.showMessageDialog(null,"success!", "Log reminder!", JOptionPane.INFORMATION_MESSAGE);
 							login=true;
 							//UserManager.login(uid);
-							DefaultListModel model = new DefaultListModel();
+							/**DefaultListModel model = new DefaultListModel();
 							UI.list.setModel(model);
 							String sl[]=new String[100];
 							toServer.writeInt(10);
@@ -107,7 +107,7 @@ public class UI3 extends JFrame {
 							for(int i=0;i<count;i++){
 								sl[i]=fromServer.readUTF();
 								model.addElement(sl[i]);
-							}
+							}*/
 						}
 						else{
 							JOptionPane.showMessageDialog(null,"fail!", "Log reminder!", JOptionPane.ERROR_MESSAGE);

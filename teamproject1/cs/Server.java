@@ -312,6 +312,7 @@ public class Server extends JFrame{
 								jta.append("I'm sending the message to the user");
 							}
 						}
+						DataBase.close(conn);
 					}
 					if(requesttype==9){ //服务器接收来自客户端的注销申请
 						jta.append("receive LOG OUT request  "+'\n');
@@ -319,7 +320,7 @@ public class Server extends JFrame{
 						UserManager.logout(uid);
 						jta.append("log out successfully!"+'\n');
 					}
-					if(requesttype==10){
+					if(requesttype==10){ //服务器接收来自客户端的刷新在线好友列表申请
 						conn = DataBase.connect();
 						Statement statement = conn.createStatement();
 						Statement statement2=conn.createStatement();
@@ -332,8 +333,30 @@ public class Server extends JFrame{
 						while(resultSet.next()){
 							outputToClient.writeUTF(resultSet.getString(1));
 						}
+						DataBase.close(conn);
 					}
-					
+					if(requesttype==11){ //服务器接收来自客户端的刷新离线好友列表申请
+						conn = DataBase.connect();
+						Statement statement3 = conn.createStatement();
+						Statement statement4=conn.createStatement();
+						Statement statement5=conn.createStatement();
+						ResultSet resultSet3=statement3.executeQuery("select count(*) from Login");
+						ResultSet resultSet4=statement4.executeQuery("select count(*) from USERTABLE");
+						ResultSet resultSet5=statement5.executeQuery("select distinct username from USERTABLE where username not in (select username from Login)");
+						int count,count1 = 0,count2 = 0;
+						if(resultSet3.next()){
+							count1=resultSet3.getInt(1);
+						}
+						if(resultSet4.next()){
+							count2=resultSet4.getInt(1);
+						}
+						count=count2-count1;
+						outputToClient.writeInt(count);
+						while(resultSet5.next()){
+							outputToClient.writeUTF(resultSet5.getString(1));
+						}
+						DataBase.close(conn);
+					}
 			}//while
 				
 			}//try

@@ -37,6 +37,7 @@ public class UI {
 	private JFrame frame;
 	private JTextField textField;
 	public static JList list;
+	public static JList list2;
 	public DataOutputStream toServer;
 	public DataInputStream fromServer;
 	public static String inputWord;
@@ -94,6 +95,7 @@ public class UI {
 		socket=new Socket("localhost",8000);
 		fromServer=new DataInputStream(socket.getInputStream());
 		toServer=new DataOutputStream(socket.getOutputStream());
+		
 	}
 
 	/**
@@ -261,15 +263,36 @@ public class UI {
 		
 		DefaultListModel model = new DefaultListModel();
 		list = new JList();
-		list.setBounds(513, 79, 144, 200);
+		list.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		list.setBounds(513, 79, 144, 100);
 		list.setModel(model);
 		
 		JScrollPane scrollPane_3 = new JScrollPane(list);
-		scrollPane_3.setBounds(513, 79, 144, 200);
+		scrollPane_3.setBounds(513, 79, 144, 100);
 		panel.add(scrollPane_3);
 		
 		
 		//scrollPane_3.setViewportView(list);
+		
+		JLabel onlinelabel = new JLabel("online users");
+		onlinelabel.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		onlinelabel.setBounds(509, 61, 86, 15);
+		panel.add(onlinelabel);
+		
+		DefaultListModel model2 = new DefaultListModel();
+		list2 = new JList();
+		list2.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		list2.setBounds(513, 197, 142, 98);
+		list2.setModel(model2);
+		
+		JScrollPane scrollPane_4 = new JScrollPane(list2);
+		scrollPane_4.setBounds(513, 197, 144, 98);
+		panel.add(scrollPane_4);
+		
+		JLabel offlinelabel = new JLabel("offline users");
+		offlinelabel.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		offlinelabel.setBounds(513, 181, 86, 15);
+		panel.add(offlinelabel);
 		
 		JButton btnNewButton_1 = new JButton("log out");
 		btnNewButton_1.addMouseListener(new MouseAdapter() {
@@ -296,7 +319,7 @@ public class UI {
 			}
 		});
 		btnNewButton_1.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		btnNewButton_1.setBounds(421, 294, 93, 23);
+		btnNewButton_1.setBounds(407, 294, 93, 23);
 		panel.add(btnNewButton_1);
 		btnNewButton_1.setVisible(true);
 		
@@ -387,6 +410,52 @@ public class UI {
 		bingzan.setColumns(10);
 		bingzan.setBounds(41, 208, 28, 18);
 		panel.add(bingzan);
+		
+		JButton refreshbutton = new JButton("refresh");
+		refreshbutton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				if(UI3.login==false){
+					JOptionPane.showMessageDialog( null , "请先登录！" ,"错误", JOptionPane.ERROR_MESSAGE) ;
+				}
+				else{
+					String sl[]=new String[100];
+					String sl2[]=new String[100];
+					try {
+						model.clear(); 
+						toServer.writeInt(10);
+						int count=fromServer.readInt();
+						for(int i=0;i<count;i++){
+							sl[i]=fromServer.readUTF();
+							model.addElement(sl[i]);
+						}
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					try {
+						model2.clear();
+						toServer.writeInt(11);
+						int count2=fromServer.readInt();
+						for(int i=0;i<count2;i++){
+							sl2[i]=fromServer.readUTF();
+							model2.addElement(sl2[i]);
+						}
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					
+				}
+			}
+		});
+		refreshbutton.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		refreshbutton.setBounds(541, 294, 93, 23);
+		panel.add(refreshbutton);
+		
+		
 	//	ImageIcon image=new ImageIcon("Baidu.jpg");
 	//	JLabel lblNewLabel = new JLabel(image);
 	//	lblNewLabel.setBounds(507, 70, 111, 58);
@@ -578,6 +647,7 @@ public class UI {
 					}
 				}
 			});
+		 
 	}
 	public void searchWords(String inputWord,int TYPE
 			,JLabel label,JScrollPane scrollPane,JTextArea textArea_1,JButton btnSend,JButton btnGood,JButton btnBad
