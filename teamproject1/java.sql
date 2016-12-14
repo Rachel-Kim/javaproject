@@ -11,27 +11,27 @@ logindate blob
 
 CREATE TABLE Dictionary(
 Word CHAR(30) PRIMARY KEY,
-NumZanBaidu INT,
+NumZanJinshan INT,
 NumZanYoudao INT,
 NumZanBing INT
 );
 
-CREATE TABLE BaiduPraise(
+CREATE TABLE JinshanPraise(
 username CHAR(20) NOT NULL,
 Word CHAR(30) NOT NULL,
 CONSTRAINT CKey PRIMARY KEY(username,Word));
 
-Create Trigger AddPraiseBaidu
-After INSERT on BaiduPraise 
+Create Trigger AddPraiseJinshan
+After INSERT on JinshanPraise 
 for each row
 Update Dictionary
-Set NumZanBaidu = NumZanBaidu + 1 where Word = new.Word;
+Set NumZanJinshan = NumZanJinshan + 1 where Word = new.Word;
 
-Create Trigger DelPraiseBaidu
-After DELETE on BaiduPraise 
+Create Trigger DelPraiseJinshan
+After DELETE on JinshanPraise 
 for each row
 Update Dictionary
-Set NumZanBaidu = NumZanBaidu - 1 where Word = old.Word;
+Set NumZanJinshan = NumZanJinshan - 1 where Word = old.Word;
 
 CREATE TABLE YouDaoPraise(
 username CHAR(20) NOT NULL,
