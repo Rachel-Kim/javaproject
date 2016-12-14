@@ -321,6 +321,7 @@ public class Server extends JFrame{
 						jta.append("log out successfully!"+'\n');
 					}
 					if(requesttype==10){ //服务器接收来自客户端的刷新在线好友列表申请
+						jta.append("receive DISPLAY ONLINE USER request  "+'\n');
 						conn = DataBase.connect();
 						Statement statement = conn.createStatement();
 						Statement statement2=conn.createStatement();
@@ -336,6 +337,7 @@ public class Server extends JFrame{
 						DataBase.close(conn);
 					}
 					if(requesttype==11){ //服务器接收来自客户端的刷新离线好友列表申请
+						jta.append("receive DISPLAY OFFLINE USER request  "+'\n');
 						conn = DataBase.connect();
 						Statement statement3 = conn.createStatement();
 						Statement statement4=conn.createStatement();
@@ -354,6 +356,88 @@ public class Server extends JFrame{
 						outputToClient.writeInt(count);
 						while(resultSet5.next()){
 							outputToClient.writeUTF(resultSet5.getString(1));
+						}
+						DataBase.close(conn);
+					}
+					/**if(requesttype==12){ //服务器接收来自客户端的查看用户点赞情况-金山
+						jta.append("receive DISPLAY USER'S JINSHAN PRAISE request  "+'\n');
+						String userid=inputFromClient.readUTF();
+						
+						conn = DataBase.connect();
+						Statement statement1 = conn.createStatement();
+						Statement statement2 = conn.createStatement();
+						
+						ResultSet resultSet1=statement1.executeQuery("select count(*) as value from jinshanpraise where username='"+userid+"'");
+						ResultSet resultSet2=statement2.executeQuery("select * from jinshanpraise where username='" +userid+"'");
+						if(resultSet1.next()){
+							int count=resultSet1.getInt(1);
+							outputToClient.writeInt(count);
+						}
+						
+						
+						while(resultSet2.next()){
+							String result=resultSet2.getString(2);
+							outputToClient.writeUTF(result);
+						}
+						if(!resultSet2.next()){
+							outputToClient.writeUTF("No praise record!");
+						}
+						DataBase.close(conn);
+					}
+					if(requesttype==13){//服务器接收来自客户端的查看用户点赞情况-有道
+						jta.append("receive DISPLAY USER'S YOUDAO PRAISE request  "+'\n');
+						String userid=inputFromClient.readUTF();
+						
+						conn = DataBase.connect();
+						Statement statement3 = conn.createStatement();
+						Statement statement4 = conn.createStatement();
+						
+						ResultSet resultSet3=statement3.executeQuery("select count(*) as value from youdaopraise where username='"+userid+"'");
+						ResultSet resultSet4=statement4.executeQuery("select * from youdaopraise where username='" +userid+"'");
+						if(resultSet3.next()){
+							int count=resultSet3.getInt(1);
+							outputToClient.writeInt(count);
+						}
+						
+						
+						while(resultSet4.next()){
+							String result=resultSet4.getString(2);
+							outputToClient.writeUTF(result);
+						}
+						if(!resultSet4.next()){
+							outputToClient.writeUTF("No praise record!");
+						}
+						DataBase.close(conn);
+					}*/
+					if(requesttype==12){ //服务器接收来自客户端的发送单词卡请求
+						jta.append("receive SEND WORDCARD request  "+'\n');
+						String sender=inputFromClient.readUTF();
+						String receiver=inputFromClient.readUTF();
+						String word=inputFromClient.readUTF();
+						DictionaryManager dic=new DictionaryManager();
+						dic.Addwordcard(sender, receiver, word);
+						jta.append("The word has put to database  "+'\n');
+						
+					}
+					if(requesttype==13){
+						jta.append("I'm searching in the database !"+'\n');
+						String asker=inputFromClient.readUTF();
+						conn = DataBase.connect();
+						Statement statement = conn.createStatement();
+						ResultSet resultSet=statement.executeQuery("select * from Wordcard where receiver='"+asker+"'");
+						if(resultSet.next()){
+							jta.append("search success!");
+							String word=resultSet.getString(3);
+							outputToClient.writeUTF(word);
+							String sender=resultSet.getString(1);
+							outputToClient.writeUTF(sender);
+							DictionaryManager dic=new DictionaryManager();
+							dic.Delwordcard(sender, asker, word);
+						
+						}
+						else{
+							jta.append("search failed!");
+							outputToClient.writeUTF("no one sended wordcard to you!");
 						}
 						DataBase.close(conn);
 					}

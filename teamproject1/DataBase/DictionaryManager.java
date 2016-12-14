@@ -88,4 +88,52 @@ public class DictionaryManager {
 		}
 		return true;*/
 	}
+	public static void Addwordcard(String sender,String receiver,String word){
+		boolean change=false;
+		Connection conn=null;
+		
+		try {
+			conn=DataBase.connect();
+			Statement statement=conn.createStatement();
+			String sql=null;
+			sql="insert into Wordcard values('"+ sender+"','"+receiver+"','"+word+"');";
+			change=statement.execute(sql);
+			DataBase.close(conn);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void Delwordcard(String sender,String receiver,String word){
+		boolean change=false;
+		Connection conn=null;
+		try{
+			conn=DataBase.connect();
+			Statement statement=conn.createStatement();
+			String sql=null;
+			sql="delete from Wordcard where sender='"+sender+"' and receiver='"+receiver+"' and word='"+word+"'";
+			change=statement.execute(sql);
+			DataBase.close(conn);
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**public static boolean isexist(String asker){
+		boolean is_exist=false;
+		Connection conn=null;
+		try {
+			conn = DataBase.connect();
+			Statement statement = conn.createStatement();
+			ResultSet resultSet=statement.executeQuery("select * from Wordcard where receiver='"+asker+"'");
+			if(!resultSet.next()){
+				is_exist=true;
+			}
+			
+			DataBase.close(conn);
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return is_exist;
+	}*/
 }

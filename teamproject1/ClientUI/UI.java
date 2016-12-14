@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.Scanner;
 
 //import javafx.scene.image.Image;
 //import javafx.scene.image.ImageView;
@@ -155,10 +156,35 @@ public class UI {
 		
 		
 		JButton btnSend = new JButton("");
-		btnSend.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnSend.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if(UI3.login==false){
+					JOptionPane.showMessageDialog( null , "请先登录！" ,"错误", JOptionPane.ERROR_MESSAGE) ;
+				}
+				else{
+					try {
+						Scanner input=new Scanner(System.in);
+						toServer.writeInt(12);
+						toServer.writeUTF(UI3.uid);
+						System.out.print("please input the username who you want to send wordcard: ");
+						String receiver=input.next();
+						toServer.writeUTF(receiver);
+						System.out.print("please input the word which you want to send");
+						String word=input.next();
+						toServer.writeUTF(word);
+						
+						
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					
+				}
 			}
 		});
+		
 		//btnSend.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		btnSend.setBounds(421, 78, 61, 49);
 		ImageIcon icon = new ImageIcon("image\\send.png");
@@ -348,6 +374,27 @@ public class UI {
 				if(UI3.login==false){
 					JOptionPane.showMessageDialog( null , "请先登录！" ,"错误", JOptionPane.ERROR_MESSAGE) ;
 				}
+				else{
+					try {
+						toServer.writeInt(13);
+						toServer.writeUTF(UI3.uid);
+						String result=fromServer.readUTF();
+						if(result.equals("no one sended wordcard to you!")){
+							JOptionPane.showMessageDialog( null , "没有人给你发送单词卡！" ,"提示", JOptionPane.ERROR_MESSAGE) ;
+						}
+						else{
+							String sender=fromServer.readUTF();
+							int n = JOptionPane.showConfirmDialog(null, sender+"给你发送了单词卡，想查看吗？", "提示", JOptionPane.YES_NO_OPTION);
+							if (n == JOptionPane.YES_OPTION) {
+								System.out.println(result);
+							}
+						}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+				}
 			}
 		});
 		btnNewButton_3.setFont(new Font("微软雅黑", Font.PLAIN, 12));
@@ -362,6 +409,40 @@ public class UI {
 				if(UI3.login==false){
 					JOptionPane.showMessageDialog( null , "请先登录！" ,"错误", JOptionPane.ERROR_MESSAGE) ;
 				}
+				/**else{
+					try {
+						toServer.writeInt(12);
+						toServer.writeUTF(UI3.uid);
+						int count=fromServer.readInt();
+						String s[]=new String[100];
+						for(int i=0;i<count;i++){
+							s[i]=fromServer.readUTF();
+							System.out.println(s[i]);
+						}
+						if(s[0].equals("No praise record!"))
+							System.out.println("No praise record!");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					try {
+						toServer.writeInt(13);
+						toServer.writeUTF(UI3.uid);
+						int count=fromServer.readInt();
+						String s2[]=new String[100];
+						for(int i=0;i<count;i++){
+							s2[i]=fromServer.readUTF();
+							System.out.println(s2[i]);
+						}
+						if(s2[0].equals("No praise record!"))
+							System.out.println("No praise record!");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+				}*/
 			}
 		});
 		btnNewButton_4.setFont(new Font("微软雅黑", Font.PLAIN, 12));
