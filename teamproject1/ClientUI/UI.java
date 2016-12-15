@@ -50,6 +50,7 @@ public class UI {
 	private int si=0;
 	private int index=-1;
 	public static int numzanjinshan,numzanyoudao,numzanbing;
+
 	/**
 	 * Launch the application.
 	 */
@@ -58,6 +59,7 @@ public class UI {
 	private JTextField jinshanzan;
 	private JTextField youdaozan;
 	private JTextField bingzan;
+
 	//boolean login=false;
 	public static void main(String[] args) {
 		//System.out.println("Hello,This is the sever!!");
@@ -103,6 +105,7 @@ public class UI {
 		//socket=new Socket("202.119.44.224",8000);
 		fromServer=new DataInputStream(socket.getInputStream());
 		toServer=new DataOutputStream(socket.getOutputStream());
+		
 		
 	}
 
@@ -834,6 +837,7 @@ public class UI {
 					e1.printStackTrace();
 				}
 			 }*/
+		
 		 
 	}
 	public void searchWords(String inputWord,int TYPE

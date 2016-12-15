@@ -108,7 +108,11 @@ public class UI3 extends JFrame {
 								sl[i]=fromServer.readUTF();
 								model.addElement(sl[i]);
 							}*/
-							//jishi ti=new jishi(2);
+							//while(login){
+								//jishi ti=new jishi(2);
+							//}
+							jishi ji=new jishi();
+							
 						}
 						else{
 							JOptionPane.showMessageDialog(null,"fail!", "Log reminder!", JOptionPane.ERROR_MESSAGE);
