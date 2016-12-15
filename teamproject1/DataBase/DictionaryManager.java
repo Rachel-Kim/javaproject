@@ -88,7 +88,7 @@ public class DictionaryManager {
 		}
 		return true;*/
 	}
-	public static void Addwordcard(String sender,String receiver,String word){
+	public static void Addwordcard(String sender,String receiver,String word,String type){
 		boolean change=false;
 		Connection conn=null;
 		
@@ -96,7 +96,7 @@ public class DictionaryManager {
 			conn=DataBase.connect();
 			Statement statement=conn.createStatement();
 			String sql=null;
-			sql="insert into Wordcard values('"+ sender+"','"+receiver+"','"+word+"');";
+			sql="insert into Wordcard values('"+ sender+"','"+receiver+"','"+word+"','"+type+"');";
 			change=statement.execute(sql);
 			DataBase.close(conn);
 		} catch (SQLException e) {
@@ -104,14 +104,14 @@ public class DictionaryManager {
 			e.printStackTrace();
 		}
 	}
-	public static void Delwordcard(String sender,String receiver,String word){
+	public static void Delwordcard(String sender,String receiver,String word,String type){
 		boolean change=false;
 		Connection conn=null;
 		try{
 			conn=DataBase.connect();
 			Statement statement=conn.createStatement();
 			String sql=null;
-			sql="delete from Wordcard where sender='"+sender+"' and receiver='"+receiver+"' and word='"+word+"'";
+			sql="delete from Wordcard where sender='"+sender+"' and receiver='"+receiver+"' and word='"+word+"'and type='"+type+"'";
 			change=statement.execute(sql);
 			DataBase.close(conn);
 		}catch (SQLException e) {

@@ -409,17 +409,18 @@ public class Server extends JFrame{
 						}
 						DataBase.close(conn);
 					}*/
-					if(requesttype==12){ //服务器接收来自客户端的发送单词卡请求
+					if(requesttype==12){ //服务器接收来自客户端的发送单词卡请求-金山
 						jta.append("receive SEND WORDCARD request  "+'\n');
+						String type=inputFromClient.readUTF();
 						String sender=inputFromClient.readUTF();
 						String receiver=inputFromClient.readUTF();
 						String word=inputFromClient.readUTF();
 						DictionaryManager dic=new DictionaryManager();
-						dic.Addwordcard(sender, receiver, word);
+						dic.Addwordcard(sender, receiver, word,type);
 						jta.append("The word has put to database  "+'\n');
 						
 					}
-					if(requesttype==13){
+					if(requesttype==13){ //服务器接收来自客户端的询问是否有单词卡传送
 						jta.append("I'm searching in the database !"+'\n');
 						String asker=inputFromClient.readUTF();
 						conn = DataBase.connect();
@@ -431,9 +432,23 @@ public class Server extends JFrame{
 							outputToClient.writeUTF(word);
 							String sender=resultSet.getString(1);
 							outputToClient.writeUTF(sender);
+							String type=resultSet.getString(4);
+							if(type.equals("jinshan")){
+								String s=regex_iciba.icibasearch(word);
+								outputToClient.writeUTF(s);
+							}
+							else if(type.equals("youdao")){
+								String s=regex_youdao.youdaosearch(word);
+								outputToClient.writeUTF(s);
+							}
+							else if(type.equals("bing")){
+								String s=regex_bing.bingsearch(word);
+								outputToClient.writeUTF(s);
+							}
 							DictionaryManager dic=new DictionaryManager();
-							dic.Delwordcard(sender, asker, word);
-						
+							dic.Delwordcard(sender, asker, word,type);
+							
+							
 						}
 						else{
 							jta.append("search failed!");
@@ -441,6 +456,7 @@ public class Server extends JFrame{
 						}
 						DataBase.close(conn);
 					}
+					
 			}//while
 				
 			}//try

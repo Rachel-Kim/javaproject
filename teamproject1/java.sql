@@ -16,6 +16,16 @@ NumZanYoudao INT,
 NumZanBing INT
 );
 
+CREATE TABLE Login(
+username CHAR(20) NOT NULL PRIMARY KEY);
+
+CREATE TABLE Wordcard(
+sender CHAR(20) NOT NULL,
+receiver CHAR(20) NOT NULL,
+word CHAR(30) NOT NULL,
+type CHAR(20) NOT NULL
+);
+
 CREATE TABLE JinshanPraise(
 username CHAR(20) NOT NULL,
 Word CHAR(30) NOT NULL,

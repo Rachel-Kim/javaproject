@@ -33,6 +33,8 @@ import net.regex_youdao;
 import DataBase.DataBase;
 import DataBase.DictionaryManager;
 import DataBase.DataBaseConnectionPool;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 public class UI {
 
 	private JFrame frame;
@@ -42,7 +44,10 @@ public class UI {
 	public DataOutputStream toServer;
 	public DataInputStream fromServer;
 	public static String inputWord;
+	public static String receiver;
 	public static Socket socket;
+	private int si=0;
+	private int index=-1;
 	public static int numzanjinshan,numzanyoudao,numzanbing;
 	/**
 	 * Launch the application.
@@ -156,34 +161,7 @@ public class UI {
 		
 		
 		JButton btnSend = new JButton("");
-		btnSend.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				if(UI3.login==false){
-					JOptionPane.showMessageDialog( null , "请先登录！" ,"错误", JOptionPane.ERROR_MESSAGE) ;
-				}
-				else{
-					try {
-						Scanner input=new Scanner(System.in);
-						toServer.writeInt(12);
-						toServer.writeUTF(UI3.uid);
-						System.out.print("please input the username who you want to send wordcard: ");
-						String receiver=input.next();
-						toServer.writeUTF(receiver);
-						System.out.print("please input the word which you want to send");
-						String word=input.next();
-						toServer.writeUTF(word);
-						
-						
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
-					
-				}
-			}
-		});
+		
 		
 		//btnSend.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		btnSend.setBounds(421, 78, 61, 49);
@@ -210,6 +188,12 @@ public class UI {
 		
 		//JButton button = new JButton("send");
 		JButton button = new JButton("");
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				
+			}
+		});
 		//button.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		button.setBounds(421, 152, 61, 49);
 		button.setIcon(icon);
@@ -222,6 +206,12 @@ public class UI {
 		
 		//JButton button_2 = new JButton("send");
 		JButton button_2 = new JButton("");
+		button_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				
+			}
+		});
 		//button_2.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		button_2.setBounds(421, 230, 61, 49);
 		button_2.setIcon(icon);
@@ -289,6 +279,7 @@ public class UI {
 		
 		DefaultListModel model = new DefaultListModel();
 		list = new JList();
+		
 		list.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		list.setBounds(513, 79, 144, 100);
 		list.setModel(model);
@@ -384,9 +375,11 @@ public class UI {
 						}
 						else{
 							String sender=fromServer.readUTF();
+							String s=fromServer.readUTF();
 							int n = JOptionPane.showConfirmDialog(null, sender+"给你发送了单词卡，想查看吗？", "提示", JOptionPane.YES_NO_OPTION);
 							if (n == JOptionPane.YES_OPTION) {
 								System.out.println(result);
+								System.out.println(s);
 							}
 						}
 					} catch (IOException e1) {
@@ -728,6 +721,51 @@ public class UI {
 					}
 				}
 			});
+		 
+		 list.addListSelectionListener(new ListSelectionListener() {
+				public void valueChanged(ListSelectionEvent e) {
+					//if (si == 0){
+					//	si = 1;
+					//	int i2 = e.getLastIndex();
+					//	index = i2 == index?e.getFirstIndex():i2;
+						//receiver=list.getModel().getElementAt(index).toString();
+						receiver=list.getSelectedValue().toString();
+								
+				//		}
+				//	else
+				//		si = 0;
+				}
+			});
+		 btnSend.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					if(UI3.login==false){
+						JOptionPane.showMessageDialog( null , "请先登录！" ,"错误", JOptionPane.ERROR_MESSAGE) ;
+					}
+					else{
+						try {
+							Scanner input=new Scanner(System.in);
+							toServer.writeInt(12);
+							toServer.writeUTF("jinshan");
+							toServer.writeUTF(UI3.uid);
+							//String receiver=input.next();
+							//String receiver=list.getModel().getElementAt(index).toString();
+							toServer.writeUTF(receiver);
+							System.out.print("please input the word which you want to send");
+							String word=input.next();
+							toServer.writeUTF(word);
+							
+							
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+						
+					}
+				}
+			});
+		
 		 
 	}
 	public void searchWords(String inputWord,int TYPE
