@@ -91,13 +91,13 @@ public class Server extends JFrame{
 						jta.append("word received from client:"+inputword+'\n');
 						jta.append("jinshansearch result:" + result + '\n');
 					}
-					else if(TYPE==2){
+					else if(TYPE==3){
 						result=regex_bing.bingsearch(inputword);
 						outputToClient.writeUTF(result);
 						jta.append("word received from client:"+inputword+'\n');
 						jta.append("bingsearch result:" + result + '\n');
 					}
-					else if(TYPE==3){
+					else if(TYPE==2){
 						result=regex_youdao.youdaosearch(inputword);
 						outputToClient.writeUTF(result);
 						jta.append("word received from client:"+inputword+'\n');
@@ -105,19 +105,19 @@ public class Server extends JFrame{
 					}
 					else if(TYPE==4){
 						result=regex_iciba.icibasearch(inputword);
-						result2=regex_bing.bingsearch(inputword);
-						result3=regex_youdao.youdaosearch(inputword);
+						result2=regex_youdao.youdaosearch(inputword);
+						result3=regex_bing.bingsearch(inputword);
 						outputToClient.writeUTF(result);
 						outputToClient.writeUTF(result2);
 						outputToClient.writeUTF(result3);
 						jta.append("word received from client:"+inputword+'\n');
 						jta.append("jinshansearch result:" + result + '\n');
-						jta.append("bingsearch result:" + result2 + '\n');
-						jta.append("youdaosearch result:" + result3 + '\n');
+						jta.append("youdaosearch result:" + result2 + '\n');
+						jta.append("bingsearch result:" + result3 + '\n');
 					}
 					else if(TYPE==5){
 						result=regex_iciba.icibasearch(inputword);
-						result2=regex_bing.bingsearch(inputword);
+						result2=regex_youdao.youdaosearch(inputword);
 						outputToClient.writeUTF(result);
 						outputToClient.writeUTF(result2);
 						jta.append("word received from client:"+inputword+'\n');
@@ -126,7 +126,7 @@ public class Server extends JFrame{
 					}
 					else if(TYPE==6){
 						result=regex_iciba.icibasearch(inputword);
-						result3=regex_youdao.youdaosearch(inputword);
+						result3=regex_bing.bingsearch(inputword);
 						outputToClient.writeUTF(result);
 						outputToClient.writeUTF(result3);
 						jta.append("word received from client:"+inputword+'\n');
@@ -134,25 +134,25 @@ public class Server extends JFrame{
 						jta.append("youdaosearch result:" + result3 + '\n');
 					}
 					else if(TYPE==7){
-						result2=regex_bing.bingsearch(inputword);
-						result3=regex_youdao.youdaosearch(inputword);
+						result2=regex_youdao.youdaosearch(inputword);
+						result3=regex_bing.bingsearch(inputword);
 						outputToClient.writeUTF(result2);
 						outputToClient.writeUTF(result3);
 						jta.append("word received from client:"+inputword+'\n');
-						jta.append("bingsearch result:" + result2 + '\n');
-						jta.append("youdaosearch result:" + result3 + '\n');
+						jta.append("youdaosearch result:" + result2 + '\n');
+						jta.append("bingsearch result:" + result3 + '\n');
 					}
 					else if(TYPE==8){
 						result=regex_iciba.icibasearch(inputword);
-						result2=regex_bing.bingsearch(inputword);
-						result3=regex_youdao.youdaosearch(inputword);
+						result2=regex_youdao.youdaosearch(inputword);
+						result3=regex_bing.bingsearch(inputword);
 						outputToClient.writeUTF(result);
 						outputToClient.writeUTF(result2);
 						outputToClient.writeUTF(result3);
 						jta.append("word received from client:"+inputword+'\n');
 						jta.append("jinshansearch result:" + result + '\n');
-						jta.append("bingsearch result:" + result2 + '\n');
-						jta.append("youdaosearch result:" + result3 + '\n');
+						jta.append("youdaosearch result:" + result2 + '\n');
+						jta.append("bingsearch result:" + result3 + '\n');
 					}
 					
 				}//if

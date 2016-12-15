@@ -41,11 +41,12 @@ public class UI {
 	private JTextField textField;
 	public static JList list;
 	public static JList list2;
-	public DataOutputStream toServer;
-	public DataInputStream fromServer;
+	public static DataOutputStream toServer;
+	public static DataInputStream fromServer;
 	public static String inputWord;
 	public static String receiver;
 	public static Socket socket;
+	public static String webtype;
 	private int si=0;
 	private int index=-1;
 	public static int numzanjinshan,numzanyoudao,numzanbing;
@@ -99,6 +100,7 @@ public class UI {
 	public UI() throws UnknownHostException, IOException {
 		initialize();
 		socket=new Socket("localhost",8000);
+		//socket=new Socket("202.119.44.224",8000);
 		fromServer=new DataInputStream(socket.getInputStream());
 		toServer=new DataOutputStream(socket.getOutputStream());
 		
@@ -108,6 +110,7 @@ public class UI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 683, 365);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -188,12 +191,7 @@ public class UI {
 		
 		//JButton button = new JButton("send");
 		JButton button = new JButton("");
-		button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				
-			}
-		});
+		
 		//button.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		button.setBounds(421, 152, 61, 49);
 		button.setIcon(icon);
@@ -206,12 +204,7 @@ public class UI {
 		
 		//JButton button_2 = new JButton("send");
 		JButton button_2 = new JButton("");
-		button_2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				
-			}
-		});
+		
 		//button_2.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		button_2.setBounds(421, 230, 61, 49);
 		button_2.setIcon(icon);
@@ -454,12 +447,7 @@ public class UI {
 				else{
 					UI3 frame3=new UI3();
 					frame3.setVisible(true);
-					//if(UI3.login==true){
-					//	btnNewButton_1.setVisible(true);
-					//	btnNewButton_2.setVisible(true);
-					//	btnNewButton_3.setVisible(true);
-					//	btnNewButton_4.setVisible(true);
-					//}
+					
 				}
 			}
 			
@@ -722,7 +710,7 @@ public class UI {
 				}
 			});
 		 
-		 list.addListSelectionListener(new ListSelectionListener() {
+		/** list.addListSelectionListener(new ListSelectionListener() {
 				public void valueChanged(ListSelectionEvent e) {
 					//if (si == 0){
 					//	si = 1;
@@ -735,7 +723,7 @@ public class UI {
 				//	else
 				//		si = 0;
 				}
-			});
+			});*/
 		 btnSend.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseReleased(MouseEvent e) {
@@ -743,29 +731,109 @@ public class UI {
 						JOptionPane.showMessageDialog( null , "请先登录！" ,"错误", JOptionPane.ERROR_MESSAGE) ;
 					}
 					else{
-						try {
+						webtype="jinshan";
+						UI5 frame5=new UI5();
+						frame5.setVisible(true);
+						
+						/**try {
 							Scanner input=new Scanner(System.in);
 							toServer.writeInt(12);
 							toServer.writeUTF("jinshan");
 							toServer.writeUTF(UI3.uid);
-							//String receiver=input.next();
+							System.out.println("please input the username who you want to send: ");
+							String receiver=input.next();
 							//String receiver=list.getModel().getElementAt(index).toString();
 							toServer.writeUTF(receiver);
-							System.out.print("please input the word which you want to send");
-							String word=input.next();
-							toServer.writeUTF(word);
-							
+							//System.out.print("please input the word which you want to send");
+							//String word=input.next();
+							//toServer.writeUTF(word);
+							toServer.writeUTF(inputWord);
 							
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
-						}
+						}*/
+						
+						
+					}
+				}
+			});
+		 button.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					if(UI3.login==false){
+						JOptionPane.showMessageDialog( null , "请先登录！" ,"错误", JOptionPane.ERROR_MESSAGE) ;
+					}
+					else{
+						webtype="youdao";
+						UI5 frame5=new UI5();
+						frame5.setVisible(true);
+						
+						/**try {
+							Scanner input=new Scanner(System.in);
+							toServer.writeInt(12);
+							toServer.writeUTF("youdao");
+							toServer.writeUTF(UI3.uid);
+							System.out.print("please input the username who you want to send:");
+							String receiver=input.next();
+							//String receiver=list.getModel().getElementAt(index).toString();
+							toServer.writeUTF(receiver);
+							//System.out.print("please input the word which you want to send");
+							//String word=input.next();
+							//toServer.writeUTF(word);
+							toServer.writeUTF(inputWord);
+							
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}*/
+						
+						
+					}
+				}
+			});
+		 button_2.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					if(UI3.login==false){
+						JOptionPane.showMessageDialog( null , "请先登录！" ,"错误", JOptionPane.ERROR_MESSAGE) ;
+					}
+					else{
+						webtype="bing";
+						UI5 frame5=new UI5();
+						frame5.setVisible(true);
+						/**try {
+							Scanner input=new Scanner(System.in);
+							toServer.writeInt(12);
+							toServer.writeUTF("bing");
+							toServer.writeUTF(UI3.uid);
+							System.out.println("pleasl input the username who you want to send:");
+							String receiver=input.next();
+							//String receiver=list.getModel().getElementAt(index).toString();
+							toServer.writeUTF(receiver);
+							//System.out.print("please input the word which you want to send");
+							//String word=input.next();
+							//toServer.writeUTF(word);
+							toServer.writeUTF(inputWord);
+							
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}*/
 						
 						
 					}
 				}
 			});
 		
+			/** if(UI3.login==true){
+				 try {
+					jishi ti=new jishi(2);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			 }*/
 		 
 	}
 	public void searchWords(String inputWord,int TYPE
@@ -911,7 +979,7 @@ public class UI {
 			button_4.setBounds(373, 78, 45, 23);
 			button_1.setBounds(373, 104, 45, 23);
 			button.setBounds(421, 78, 61, 49);
-			youdaozan.setBounds(41,134,28,18);
+			youdaozan.setBounds(41,61,28,18);
 			textArea_2.setText("");
 			String result="";
 			youdaozan.setText(numzanyoudao+"");
@@ -954,7 +1022,7 @@ public class UI {
 			button_3.setBounds(373, 78, 45, 23);
 			button_5.setBounds(373, 104, 45, 23);
 			button_2.setBounds(421, 78, 61, 49);
-			bingzan.setBounds(41, 208, 28, 18);
+			bingzan.setBounds(41, 61, 28, 18);
             textArea_3.setText("");
 			String result="";
 			bingzan.setText(numzanbing+"");
@@ -1206,7 +1274,7 @@ public class UI {
     			textArea_2.setBounds(20, 152, 341, 48);
     			button_4.setBounds(373, 152, 45, 23);
     			button_1.setBounds(373, 177, 45, 23);
-    			button.setBounds(41, 152, 61, 49);
+    			button.setBounds(421, 152, 61, 49);
     			youdaozan.setBounds(41, 134, 28, 18);
                 }
             else{
