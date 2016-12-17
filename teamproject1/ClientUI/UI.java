@@ -102,6 +102,7 @@ public class UI {
 	public UI() throws UnknownHostException, IOException {
 		initialize();
 		socket=new Socket("localhost",8000);
+		//socket=new Socket("114.212.130.201",8000);
 		//socket=new Socket("202.119.44.224",8000);
 		fromServer=new DataInputStream(socket.getInputStream());
 		toServer=new DataOutputStream(socket.getOutputStream());
@@ -332,7 +333,7 @@ public class UI {
 			}
 		});
 		btnNewButton_1.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		btnNewButton_1.setBounds(407, 294, 93, 23);
+		btnNewButton_1.setBounds(225, 287, 93, 23);
 		panel.add(btnNewButton_1);
 		btnNewButton_1.setVisible(true);
 		
@@ -350,94 +351,9 @@ public class UI {
 				}
 		});
 		btnNewButton_2.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		btnNewButton_2.setBounds(254, 294, 143, 23);
+		btnNewButton_2.setBounds(10, 287, 143, 23);
 		panel.add(btnNewButton_2);
 		btnNewButton_2.setVisible(true);
-		
-		JButton btnNewButton_3 = new JButton("Message");
-		btnNewButton_3.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				if(UI3.login==false){
-					JOptionPane.showMessageDialog( null , "请先登录！" ,"错误", JOptionPane.ERROR_MESSAGE) ;
-				}
-				else{
-					try {
-						toServer.writeInt(13);
-						toServer.writeUTF(UI3.uid);
-						String result=fromServer.readUTF();
-						if(result.equals("no one sended wordcard to you!")){
-							JOptionPane.showMessageDialog( null , "没有人给你发送单词卡！" ,"提示", JOptionPane.ERROR_MESSAGE) ;
-						}
-						else{
-							String sender=fromServer.readUTF();
-							String s=fromServer.readUTF();
-							int n = JOptionPane.showConfirmDialog(null, sender+"给你发送了单词卡，想查看吗？", "提示", JOptionPane.YES_NO_OPTION);
-							if (n == JOptionPane.YES_OPTION) {
-								System.out.println(result);
-								System.out.println(s);
-							}
-						}
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
-				}
-			}
-		});
-		btnNewButton_3.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		btnNewButton_3.setBounds(132, 294, 102, 23);
-		panel.add(btnNewButton_3);
-		btnNewButton_3.setVisible(true);
-		
-		JButton btnNewButton_4 = new JButton("user's praise record");
-		btnNewButton_4.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				if(UI3.login==false){
-					JOptionPane.showMessageDialog( null , "请先登录！" ,"错误", JOptionPane.ERROR_MESSAGE) ;
-				}
-				/**else{
-					try {
-						toServer.writeInt(12);
-						toServer.writeUTF(UI3.uid);
-						int count=fromServer.readInt();
-						String s[]=new String[100];
-						for(int i=0;i<count;i++){
-							s[i]=fromServer.readUTF();
-							System.out.println(s[i]);
-						}
-						if(s[0].equals("No praise record!"))
-							System.out.println("No praise record!");
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
-					try {
-						toServer.writeInt(13);
-						toServer.writeUTF(UI3.uid);
-						int count=fromServer.readInt();
-						String s2[]=new String[100];
-						for(int i=0;i<count;i++){
-							s2[i]=fromServer.readUTF();
-							System.out.println(s2[i]);
-						}
-						if(s2[0].equals("No praise record!"))
-							System.out.println("No praise record!");
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
-				}*/
-			}
-		});
-		btnNewButton_4.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		btnNewButton_4.setBounds(10, 294, 102, 23);
-		panel.add(btnNewButton_4);
-		btnNewButton_4.setVisible(true);
 		
 		JButton btnLogIn = new JButton("log in");
 		btnLogIn.setFont(new Font("微软雅黑", Font.PLAIN, 12));

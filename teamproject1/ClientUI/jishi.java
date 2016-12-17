@@ -13,7 +13,7 @@ public class jishi implements ActionListener{
 	public static Socket socket;
 	private Timer timer;
 	public jishi(){
-		timer=new Timer(2000,this);
+		timer=new Timer(1000,this);
 		timer.start();
 		//timer.schedule(new jishitask(), seconds*1000);
 		//fromServer=new DataInputStream(socket.getInputStream());
