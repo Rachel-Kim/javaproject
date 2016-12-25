@@ -114,6 +114,9 @@ public class UI3 extends JFrame {
 							jishi ji=new jishi();
 							
 						}
+						else if(s.equals("the user is in login state!")){
+							JOptionPane.showMessageDialog(null,"the userid is login state!", "Log reminder!", JOptionPane.ERROR_MESSAGE);
+						}
 						else{
 							JOptionPane.showMessageDialog(null,"fail!", "Log reminder!", JOptionPane.ERROR_MESSAGE);
 						}

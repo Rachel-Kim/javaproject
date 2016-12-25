@@ -258,18 +258,29 @@ public class Server extends JFrame{
 						jta.append("receive SIGN IN request  "+'\n');
 						String uid=inputFromClient.readUTF();
 						String pw=inputFromClient.readUTF();
-						UserManager.createUser(uid,pw);
+						if(UserManager.createUser(uid,pw)==true){
 						jta.append("create user successfully! "+'\n');
 						outputToClient.writeUTF("create user successfully! ");
+						}
+						else{
+							jta.append("create user failed! "+'\n');
+							outputToClient.writeUTF("create user failed! ");
+						}
+						
 					}
 					if(requesttype==6){ //服务器接收来自客户端的登录申请
 						jta.append("receive LOG IN request  "+'\n');
 						String uid=inputFromClient.readUTF();
 						String pw=inputFromClient.readUTF();
 						if(UserManager.identityVerify(uid, pw)==true){
-							jta.append("log in successfully!  "+'\n');
-							outputToClient.writeUTF("log in successfully!");
-							UserManager.login(uid);
+							if(UserManager.login(uid)==true){
+								jta.append("log in successfully!  "+'\n');
+								outputToClient.writeUTF("log in successfully!");
+							}
+							else{
+								jta.append("the user is in login state !  "+'\n');
+								outputToClient.writeUTF("the user is in login state!");
+							}
 							}
 						else{
 							jta.append("log in failed! "+'\n');

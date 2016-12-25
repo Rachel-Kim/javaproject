@@ -10,34 +10,53 @@ public class UserManager {
 	private static Connection conn = null;
 	private static ArrayList<User> onlineUser;
 	public static boolean createUser(String account,String Pw){
+		boolean result=true;
 		boolean change = false;
 		try {
 			conn = DataBase.connect();
+			Statement statement2 = DataBase.connect().createStatement();
+			ResultSet resultSet2=statement2.executeQuery("select 1 from usertable where username='"+account+"'");
+			if(resultSet2.next()){
+				result=false;
+				change=false;
+			}
+			if(result==true){
 			Statement statement = conn.createStatement();
-			String sql = "insert into USERTABLE(username,password) values('"
-					+account+"','"+Pw+"');";
-			change = statement.execute(sql);
+			String sql = "insert into USERTABLE(username,password) values('"+account+"','"+Pw+"');";
+			statement.executeUpdate(sql);
+			change=true;
+			}
 			DataBase.close(conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return change;
 	}
-	public static void login(String userid){
+	public static boolean login(String userid){
 		boolean is_login = false;
+		boolean result=true;
 		try {
 			conn = DataBase.connect();
 			Statement statement1 = conn.createStatement();
 			Statement statement2 = conn.createStatement();
+			Statement statement3 = DataBase.connect().createStatement();
+			ResultSet resultSet3=statement3.executeQuery("select 1 from login where username='"+userid+"'");
+			if(resultSet3.next()){
+				result=false;
+				is_login=false;
+			}
+			if(result==true){
 			String sql1="delete from Login where username='"+userid+"';";
 			String sql2 = "insert into Login(username) values('"+userid+"');";
 			statement1.executeUpdate(sql1);
 			statement2.executeUpdate(sql2);
+			is_login=true;
+			}
 			DataBase.close(conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		//return is_login;
+		return is_login;
 	}
 	public static void logout(String userid){
 		try {

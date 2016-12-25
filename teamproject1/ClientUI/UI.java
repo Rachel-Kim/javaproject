@@ -101,8 +101,8 @@ public class UI {
 	 */
 	public UI() throws UnknownHostException, IOException {
 		initialize();
-		socket=new Socket("localhost",8000);
-		//socket=new Socket("114.212.130.201",8000);
+		//socket=new Socket("localhost",8000);
+		socket=new Socket("114.212.130.201",8000);
 		//socket=new Socket("202.119.44.224",8000);
 		fromServer=new DataInputStream(socket.getInputStream());
 		toServer=new DataOutputStream(socket.getOutputStream());

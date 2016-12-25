@@ -40,7 +40,7 @@ public class SendWord extends JFrame {
         
         //String s = "find vt. 查找，找到；发现；认为；感到；获得"; 
         
-        String filePath = "E:/Img/" + new Date().getTime()+".png";
+        String filePath = "F:/Img/" + new Date().getTime()+".png";
         File file = new File(filePath);     
         Font font = new Font("微软雅黑",Font.PLAIN,fontSize);
 
@@ -132,7 +132,7 @@ public class SendWord extends JFrame {
 		 getContentPane().add(label); 
 		  
 		 setBounds(100, 100, 650, 350); 
-		 setDefaultCloseOperation(EXIT_ON_CLOSE); 
+		 setDefaultCloseOperation(HIDE_ON_CLOSE); 
 		 setVisible(true); 
 		 } 
 

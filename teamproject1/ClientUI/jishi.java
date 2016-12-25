@@ -8,12 +8,15 @@ import java.net.Socket;
 //import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.Timer;
+
+import image.SendWord;
+
 import javax.swing.JOptionPane;
 public class jishi implements ActionListener{
 	public static Socket socket;
 	private Timer timer;
 	public jishi(){
-		timer=new Timer(1000,this);
+		timer=new Timer(2000,this);
 		timer.start();
 		//timer.schedule(new jishitask(), seconds*1000);
 		//fromServer=new DataInputStream(socket.getInputStream());
@@ -35,6 +38,9 @@ public class jishi implements ActionListener{
 				if (n == JOptionPane.YES_OPTION) {
 					System.out.println(result);
 					System.out.println(s);
+					SendWord sw =  new SendWord();
+			        sw.create(result,s);
+					//sw.create(result,"Word");
 				}
 			}
 		} catch (IOException e1) {

@@ -105,6 +105,12 @@ public class UI2 extends JFrame {
 							toServer.writeUTF(uidStr);
 							toServer.writeUTF(Pw0);
 							String s=fromServer.readUTF();
+							if(s.equals("create user failed! ")){
+								JOptionPane.showMessageDialog(null,"the user exists!", "sign in reminder!", JOptionPane.ERROR_MESSAGE);
+							}
+							else{
+								JOptionPane.showMessageDialog(null,"Success!", "sign in reminder!", JOptionPane.INFORMATION_MESSAGE);
+							}
 							System.out.println(s);
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
@@ -112,15 +118,15 @@ public class UI2 extends JFrame {
 						}
 						
 						//UserManager.createUser(uidStr,Pw0);
-						JOptionPane.showMessageDialog(null,"Success!", "sign in reminder!", JOptionPane.INFORMATION_MESSAGE);
-						dispose();
+						
+						//dispose();
 					}
 					else
 						JOptionPane.showMessageDialog(null,"fail!", "sign reminder!", JOptionPane.ERROR_MESSAGE);
 				}
-				else{
-					JOptionPane.showMessageDialog(null,"fail!", "sign reminder!", JOptionPane.ERROR_MESSAGE);
-				}
+				
+					
+				
 			}
 		});
 		submitbutton.setFont(new Font("微软雅黑", Font.PLAIN, 12));
